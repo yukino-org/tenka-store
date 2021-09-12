@@ -24,7 +24,7 @@ export const resolveConfig = async (path: string) => {
     }
 
     const config: ExtensionConfig = require(path).config;
-    await checkExtensionConfig(config);
+    await checkExtensionConfig(idSuffix, config);
 
     const id = `${config.author}.${idSuffix}`;
     let version = 1;

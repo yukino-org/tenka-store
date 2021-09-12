@@ -20,6 +20,7 @@ export interface ResolvedExtension extends BaseExtension {
 }
 
 export const checkExtensionConfig = async (
+    idSuffix: string,
     config: ExtensionConfig
 ): Promise<true | never> => {
     if (Object.keys(config).length != 3) {
@@ -55,16 +56,42 @@ export const checkExtensionConfig = async (
         throw new Error("'config.source' must be 'string'");
     }
 
-    const [, urlUsername = null] =
-        /^https:\/\/raw\.githubusercontent\.com\/([^\/]+)\/.*\.ht$/.exec(
+    const [
+        ,
+        urlUsername = null,
+        urlRepo = null,
+        urlRef = null,
+        urlFilename = null,
+    ] =
+        /^https:\/\/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/.*\/(.*)\.ht$/.exec(
             config.source
         ) || [];
-    if (!urlUsername) {
+    if (!urlUsername || !urlRepo || !urlRef || !urlFilename) {
         throw new Error("'config.source' has invalid format");
     }
 
     if (![config.author, "yukino-app"].includes(urlUsername)) {
         throw new Error("'config.source' has different author");
+    }
+
+    if (!/^\b[0-9a-f]{5,40}\b$/.test(urlRef)) {
+        throw new Error("'config.source' has invalid SHA1");
+    }
+
+    const refSrc = await got.get(
+        `https://api.github.com/repos/${urlUsername}/${urlRepo}/commits/${urlRef}`,
+        {
+            responseType: "json",
+        }
+    );
+    if ((refSrc.body as any).sha != urlRef) {
+        throw new Error(
+            "'config.source' must point to a commit rather than a branch"
+        );
+    }
+
+    if (urlFilename != idSuffix) {
+        throw new Error("'config.source' has unmatched filename");
     }
 
     const srcRes = await got.get(config.source);
