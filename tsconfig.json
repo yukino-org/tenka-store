@@ -2,7 +2,7 @@
   "compilerOptions": {
      "target": "es6",
      "module": "commonjs",
-     "rootDir": "./lib",
+     "rootDir": "./",
      "outDir": "./dist",
      "esModuleInterop": true,
      "forceConsistentCasingInFileNames": true,
@@ -15,5 +15,9 @@
      "noFallthroughCasesInSwitch": true,
      "noUncheckedIndexedAccess": true,
      "skipLibCheck": true
-  }
+  },
+  "include": [
+    "./lib/**/*",
+    "./extensions/**/*"
+  ]
 }

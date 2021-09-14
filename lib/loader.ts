@@ -8,7 +8,13 @@ import {
     checkExtensionConfig,
 } from "./model";
 
-export const resolveConfig = async (path: string) => {
+export const resolveConfig = async (
+    path: string
+): Promise<
+    Omit<ResolvedExtension, "source"> & {
+        code: string;
+    }
+> => {
     const filename = basename(path);
 
     const [, idSuffix = null] = /^([\w-]{4,20})\.ts$/.exec(filename) || [];
@@ -31,13 +37,11 @@ export const resolveConfig = async (path: string) => {
 
     const { body: content } = await got.get(config.source);
 
-    const extension: ResolvedExtension = {
+    return {
         name: config.name,
         id: id,
         version: version,
         type: type as ExtensionType,
         code: content,
     };
-
-    return extension;
 };

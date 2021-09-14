@@ -5,18 +5,17 @@ export type ExtensionType = typeof ExtensionTypes[number];
 
 export interface BaseExtension {
     name: string;
+    source: string;
 }
 
 export interface ExtensionConfig extends BaseExtension {
     author: string;
-    source: string;
 }
 
 export interface ResolvedExtension extends BaseExtension {
     id: string;
     version: number;
     type: ExtensionType;
-    code: string;
 }
 
 export const checkExtensionConfig = async (
