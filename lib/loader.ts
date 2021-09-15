@@ -12,7 +12,7 @@ import {
 export const resolveConfig = async (
     path: string
 ): Promise<
-    Omit<ResolvedExtension, "source"> & {
+    Omit<ResolvedExtension, "source" | "version"> & {
         code: string;
     }
 > => {
@@ -34,14 +34,11 @@ export const resolveConfig = async (
     await checkExtensionConfig(idSuffix, config);
 
     const id = `${config.author}.${idSuffix}`;
-    let version = 1;
-
     const { body: content } = await got.get(config.source);
 
     return {
         name: config.name,
         id: id,
-        version: version,
         type: type as ExtensionType,
         code: content,
         image: config.image,
