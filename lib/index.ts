@@ -28,9 +28,8 @@ const start = async () => {
         const resolved = await resolveConfig(file.fullPath);
         const prevResolved = previousPlugins.find((x) => x.id == resolved.id);
 
-        const filename = file.basename.slice(0, -3);
-        const source = join(dist, "extensions", `${filename}.ht`);
-        const image = join(dist, "extensions", `${filename}.png`);
+        const source = join(dist, "extensions", `${resolved.id}.ht`);
+        const image = join(dist, "extensions", `${resolved.id}.png`);
 
         await ensureDir(dirname(source));
         await writeFile(source, resolved.code);
