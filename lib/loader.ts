@@ -1,5 +1,6 @@
 import { basename, dirname, relative } from "path";
 import got from "got";
+import jimp from "jimp";
 import {
     ExtensionConfig,
     ResolvedExtension,
@@ -43,5 +44,14 @@ export const resolveConfig = async (
         version: version,
         type: type as ExtensionType,
         code: content,
+        image: config.image,
     };
+};
+
+export const resolveImage = async (url: string): Promise<Buffer> => {
+    const size = 96;
+    const img = await jimp.read(url);
+    img.quality(100);
+    img.resize(size, size);
+    return await img.getBufferAsync(jimp.MIME_PNG);
 };

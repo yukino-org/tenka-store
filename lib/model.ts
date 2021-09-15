@@ -6,6 +6,7 @@ export type ExtensionType = typeof ExtensionTypes[number];
 export interface BaseExtension {
     name: string;
     source: string;
+    image?: string;
 }
 
 export interface ExtensionConfig extends BaseExtension {
@@ -22,10 +23,6 @@ export const checkExtensionConfig = async (
     idSuffix: string,
     config: ExtensionConfig
 ): Promise<true | never> => {
-    if (Object.keys(config).length != 3) {
-        throw new Error("'config' has missing/excess properties");
-    }
-
     if (typeof config.name != "string") {
         throw new Error("'config.name' must be 'string'");
     }
@@ -94,12 +91,53 @@ export const checkExtensionConfig = async (
     }
 
     const srcRes = await got.get(config.source);
-    if (srcRes.statusCode != 200) {
-        throw new Error("'config.source' is an invalid url");
+    if (![200, 304].includes(srcRes.statusCode)) {
+        throw new Error("'config.source' is an invalid status code");
     }
 
     if (!srcRes.headers["content-type"]?.startsWith("text/plain;")) {
         throw new Error("'config.source' returned invalid 'Content-Type'");
+    }
+
+    if (config.image) {
+        const [
+            ,
+            imgUsername = null,
+            imgRepo = null,
+            imgRef = null,
+            imgFilename = null,
+        ] =
+            /^https:\/\/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/.*\/(.*)\.(png|jpg|jpeg|webp)$/.exec(
+                config.image
+            ) || [];
+        if (!imgUsername || !imgRepo || !imgRef || !imgFilename) {
+            throw new Error("'config.image' has invalid format");
+        }
+
+        if (imgUsername != urlUsername) {
+            throw new Error("'config.image' has different author");
+        }
+
+        if (imgRepo != urlRepo) {
+            throw new Error("'config.image' has different repo");
+        }
+
+        if (imgRef != urlRef) {
+            throw new Error("'config.image' has different SHA1");
+        }
+
+        if (imgFilename != urlFilename) {
+            throw new Error("'config.image' has different filename");
+        }
+
+        const imgRes = await got.get(config.image);
+        if (![200, 304].includes(imgRes.statusCode)) {
+            throw new Error("'config.image' is an invalid status code");
+        }
+
+        if (!imgRes.headers["content-type"]?.startsWith("image/")) {
+            throw new Error("'config.image' returned invalid 'Content-Type'");
+        }
     }
 
     return true;
