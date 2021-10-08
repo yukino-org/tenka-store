@@ -1,5 +1,6 @@
 import { basename, dirname, join, relative, resolve } from "path";
 import { emptyDir, ensureDir, writeFile } from "fs-extra";
+import ora from "ora";
 import got from "got";
 import readdirp from "readdirp";
 import { resolveConfig, resolveImage } from "./loader";
@@ -25,6 +26,10 @@ const start = async () => {
         : [];
 
     for await (const file of readdirp(src)) {
+        const log = ora(
+            `Processing: ${relative(process.cwd(), file.fullPath)}`
+        );
+
         const resolved = await resolveConfig(file.fullPath);
         const prevResolved = previousPlugins.find((x) => x.id == resolved.id);
 
@@ -49,7 +54,7 @@ const start = async () => {
             image: `${distURL}/extensions/${basename(image)}`,
         });
 
-        console.log(
+        log.succeed(
             `Processed: ${resolved.id} [${relative(
                 process.cwd(),
                 file.fullPath
