@@ -18,14 +18,14 @@ export const resolveConfig = async (
 > => {
     const filename = basename(path);
 
-    const [, idSuffix = null] = /^([\w-]{4,20})\.ts$/.exec(filename) || [];
+    const [, idSuffix = null] = /^([\w-]{4,20})\.ts$/.exec(filename) ?? [];
     if (!idSuffix) {
         throw new Error(
             `Invalid filename: '${filename}' [${relative(process.cwd(), path)}]`
         );
     }
 
-    const [, type = null] = /([^/\\]+)[\\\/]?$/.exec(dirname(path)) || [];
+    const [, type = null] = /([^/\\]+)[\\\/]?$/.exec(dirname(path)) ?? [];
     if (!ExtensionTypes.includes(type as any)) {
         throw new Error(`Invalid type: '${type}'`);
     }

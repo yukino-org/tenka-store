@@ -4,7 +4,7 @@ import ora from "ora";
 import got from "got";
 import readdirp from "readdirp";
 import { resolveConfig, resolveImage } from "./loader";
-import { ResolvedExtension } from "./model";
+import { ExtensionVersion, StringifiedResolvedExtension } from "./model";
 
 const src = resolve(__dirname, "../extensions");
 const placeholder = resolve(__dirname, "../assets/placeholder.png");
@@ -14,16 +14,21 @@ const distURL =
 
 const start = async () => {
     await emptyDir(dist);
-    const extensions: ResolvedExtension[] = [];
+    const extensions: StringifiedResolvedExtension[] = [];
 
     const placeholderBuffer = await resolveImage(placeholder);
 
     const prevRes = await got
         .get(`${distURL}/extensions.json`)
         .catch(() => null);
-    const previousPlugins: ResolvedExtension[] = prevRes
-        ? JSON.parse(prevRes.body).extensions
-        : [];
+
+    const previousPlugins: {
+        extensions: StringifiedResolvedExtension[];
+    } = prevRes
+        ? JSON.parse(prevRes.body)
+        : {
+              extensions: [],
+          };
 
     for await (const file of readdirp(src)) {
         const log = ora(
@@ -31,7 +36,9 @@ const start = async () => {
         );
 
         const resolved = await resolveConfig(file.fullPath);
-        const prevResolved = previousPlugins.find((x) => x.id == resolved.id);
+        const prevResolved = previousPlugins.extensions.find(
+            (x) => x.id == resolved.id
+        );
 
         const source = join(dist, "extensions", `${resolved.id}.ht`);
         const image = join(dist, "extensions", `${resolved.id}.png`);
@@ -45,11 +52,25 @@ const start = async () => {
                 : placeholderBuffer
         );
 
+        const version = prevResolved
+            ? ExtensionVersion.parse(prevResolved.version)
+            : ExtensionVersion.create();
+
+        if (prevResolved) {
+            const res = await got.get(prevResolved.source, {
+                responseType: "text",
+            });
+
+            if (res.body != resolved.code) {
+                version.inc();
+            }
+        }
+
         // @ts-ignore
         delete resolved.code;
         extensions.push({
             ...resolved,
-            version: (prevResolved?.version || 0) + 1,
+            version: version.toString(),
             source: `${distURL}/extensions/${basename(source)}`,
             image: `${distURL}/extensions/${basename(image)}`,
         });
