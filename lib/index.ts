@@ -4,7 +4,7 @@ import ora from "ora";
 import got from "got";
 import readdirp from "readdirp";
 import { resolveConfig, resolveImage } from "./loader";
-import { ExtensionVersion, StringifiedResolvedExtension } from "./model";
+import { DisturbutedExtensionsJson, ExtensionVersion } from "./model";
 
 const src = resolve(__dirname, "../extensions");
 const placeholder = resolve(__dirname, "../assets/placeholder.png");
@@ -14,7 +14,11 @@ const distURL =
 
 const start = async () => {
     await emptyDir(dist);
-    const extensions: StringifiedResolvedExtension[] = [];
+    const store: DisturbutedExtensionsJson = {
+        extensions: [],
+        meta: {},
+        lastModified: Date.now(),
+    };
 
     const placeholderBuffer = await resolveImage(placeholder);
 
@@ -22,21 +26,19 @@ const start = async () => {
         .get(`${distURL}/extensions.json`)
         .catch(() => null);
 
-    const previousPlugins: {
-        extensions: StringifiedResolvedExtension[];
-    } = prevRes
+    const prevStore: DisturbutedExtensionsJson | undefined = prevRes
         ? JSON.parse(prevRes.body)
-        : {
-              extensions: [],
-          };
+        : undefined;
 
     for await (const file of readdirp(src)) {
         const log = ora(
             `Processing: ${relative(process.cwd(), file.fullPath)}`
         );
 
-        const resolved = await resolveConfig(file.fullPath);
-        const prevResolved = previousPlugins.extensions.find(
+        const { checkConfigResult, resolved } = await resolveConfig(
+            file.fullPath
+        );
+        const prevResolved = prevStore?.extensions.find(
             (x) => x.id == resolved.id
         );
 
@@ -56,7 +58,10 @@ const start = async () => {
             ? ExtensionVersion.parse(prevResolved.version)
             : ExtensionVersion.create();
 
-        if (prevResolved) {
+        if (
+            prevResolved &&
+            prevStore!.meta[resolved.id]!.sha != checkConfigResult.sha
+        ) {
             const res = await got.get(prevResolved.source, {
                 responseType: "text",
             });
@@ -68,7 +73,12 @@ const start = async () => {
 
         // @ts-ignore
         delete resolved.code;
-        extensions.push({
+
+        store.meta[resolved.id] = {
+            sha: checkConfigResult.sha,
+        };
+
+        store.extensions.push({
             ...resolved,
             version: version.toString(),
             source: `${distURL}/extensions/${basename(source)}`,
@@ -84,13 +94,7 @@ const start = async () => {
     }
 
     await ensureDir(dist);
-    await writeFile(
-        join(dist, "extensions.json"),
-        JSON.stringify({
-            extensions: extensions,
-            lastModified: Date.now(),
-        })
-    );
+    await writeFile(join(dist, "extensions.json"), JSON.stringify(store));
 };
 
 start();
