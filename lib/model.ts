@@ -5,6 +5,7 @@ export interface BaseExtension {
     name: string;
     source: string;
     image?: string;
+    nsfw: boolean;
 }
 
 export interface ExtensionConfig extends BaseExtension {

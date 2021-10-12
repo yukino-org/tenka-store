@@ -183,6 +183,7 @@ export const resolveConfig = async (
             type: type as ExtensionType,
             code: checkConfigResult.code,
             image: config.image,
+            nsfw: config.nsfw,
         },
     };
 };
