@@ -11,3 +11,7 @@
 -   [./extensions/anime](./extensions/anime) - Contains all the configuration files of anime extensions
 -   [./extensions/manga](./extensions/manga) - Contains all the configuration files of anime extensions
 -   [./lib](./lib) - Contains the extensions store builder
+
+## License
+
+[MIT](./LICENSE)
