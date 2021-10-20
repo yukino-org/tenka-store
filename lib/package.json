@@ -3,9 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "description": "",
-    "main": "./lib/index.ts",
     "scripts": {
-        "build": "ts-node ./lib/index.ts"
+        "build": "ts-node ./src/index.ts"
     },
     "keywords": [],
     "author": "",
