@@ -41,39 +41,6 @@ export const partiallyResolveExtension = async (
         throw new Error("'config.path.image' has different filename");
     }
 
-    // const src = await got.get(
-
-    // );
-
-    // if (![200, 304].includes(src.statusCode)) {
-    //     throw new Error("'config.path.source' returned invalid status code");
-    // }
-
-    // if (
-
-    // ) {
-    //     throw new Error(
-    //         "'config.path.source' returned invalid 'Content-Type' header"
-    //     );
-    // }
-
-    // const image = await got.get(
-    //     `https://raw.githubusercontent.com/${config.repo.username}/${config.repo.repo}/${config.repo.sha}/${config.path.image}`
-    // );
-
-    // if (![200, 304].includes(image.statusCode)) {
-    //     throw new Error("'config.path.image' returned invalid status code");
-    // }
-
-    // if (
-    //     !image.headers["content-type"] ||
-    //     !/^image\/(jpg|jpeg|png);/.test(image.headers["content-type"])
-    // ) {
-    //     throw new Error(
-    //         "'config.path.image' returned invalid 'Content-Type' header"
-    //     );
-    // }
-
     const endpoint = `https://raw.githubusercontent.com/${config.repo.username}/${config.repo.repo}/${config.repo.sha}`;
 
     return PartiallyResolvedExtension.create({
