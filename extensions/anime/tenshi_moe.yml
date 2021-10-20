@@ -1,0 +1,10 @@
+name: Tenshi.moe
+author: zyrouge
+repo:
+    username: yukino-app
+    repo: official-extensions
+    sha: 86dd1516d57d1cf3b6b7697eecb239c06ec86c95
+path:
+    source: extensions/anime/tenshi_moe/tenshi_moe.ht
+    image: extensions/anime/tenshi_moe/tenshi_moe.png
+nsfw: false

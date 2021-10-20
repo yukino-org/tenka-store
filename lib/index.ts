@@ -1,100 +1,129 @@
-import { basename, dirname, join, relative, resolve } from "path";
-import { emptyDir, ensureDir, writeFile } from "fs-extra";
+import { basename, dirname, join, relative } from "path";
+import { emptyDir, ensureDir, readFile, writeFile } from "fs-extra";
 import ora from "ora";
 import got from "got";
 import readdirp from "readdirp";
-import { resolveConfig, resolveImage } from "./loader";
-import { DisturbutedExtensionsJson, ExtensionVersion } from "./model";
-
-const src = resolve(__dirname, "../extensions");
-const placeholder = resolve(__dirname, "../assets/placeholder.png");
-const dist = resolve(__dirname, "../dist");
-const distURL =
-    "https://raw.githubusercontent.com/yukino-app/extensions-store/dist";
+import yaml from "yaml";
+import { IStore, Store } from "./models/Store";
+import { resolveImage } from "./functions/image";
+import { paths, urls } from "./constants";
+import { isSuccessStatusCode } from "./utils";
+import { partiallyResolveExtension } from "./functions/extensions";
+import { getURLContent } from "./functions/getURLContent";
+import { ExtensionVersion } from "./models/Version";
+import { ExtensionConfig } from "./models/ExtensionConfig";
+import {
+    IResolvedExtension,
+    ResolvedExtension,
+} from "./models/ResolvedExtension";
 
 const start = async () => {
-    await emptyDir(dist);
-    const store: DisturbutedExtensionsJson = {
+    await emptyDir(paths.dist);
+
+    const store = Store.create({
         extensions: [],
         meta: {},
         lastModified: Date.now(),
-    };
+    });
 
-    const placeholderBuffer = await resolveImage(placeholder);
+    const placeholder = await resolveImage(paths.placeholder, 96);
 
-    const prevRes = await got
-        .get(`${distURL}/extensions.json`)
+    const oldRes = await got
+        .get(`${urls.dist}/extensions.json`)
         .catch(() => null);
 
-    const prevStore: DisturbutedExtensionsJson | undefined = prevRes
-        ? JSON.parse(prevRes.body)
-        : undefined;
+    const oldStore: IStore | undefined =
+        oldRes && isSuccessStatusCode(oldRes?.statusCode)
+            ? Store.create(JSON.parse(oldRes.body))
+            : undefined;
 
-    for await (const file of readdirp(src)) {
+    for await (const file of readdirp(paths.config)) {
         const log = ora(
             `Processing: ${relative(process.cwd(), file.fullPath)}`
         );
 
-        const { checkConfigResult, resolved } = await resolveConfig(
-            file.fullPath
-        );
-        const prevResolved = prevStore?.extensions.find(
-            (x) => x.id == resolved.id
-        );
+        try {
+            const type = /([^/\\]+)[\\\/]?$/.exec(dirname(file.fullPath))![1]!;
+            const config = ExtensionConfig.create(
+                yaml.parse((await readFile(file.fullPath)).toString())
+            );
+            const partial = await partiallyResolveExtension(config);
+            const previous = oldStore?.extensions.find(
+                (x) => x.id == partial.id
+            );
 
-        const source = join(dist, "extensions", `${resolved.id}.ht`);
-        const image = join(dist, "extensions", `${resolved.id}.png`);
+            const version = previous
+                ? ExtensionVersion.parse(previous.version)
+                : ExtensionVersion.create();
 
-        await ensureDir(dirname(source));
-        await writeFile(source, resolved.code);
-        await writeFile(
-            image,
-            resolved.image
-                ? await resolveImage(resolved.image)
-                : placeholderBuffer
-        );
-
-        const version = prevResolved
-            ? ExtensionVersion.parse(prevResolved.version)
-            : ExtensionVersion.create();
-
-        if (
-            prevResolved &&
-            prevStore!.meta[resolved.id]!.sha != checkConfigResult.sha
-        ) {
-            const res = await got.get(prevResolved.source, {
-                responseType: "text",
-            });
-
-            if (res.body != resolved.code) {
+            if (
+                previous &&
+                oldStore!.meta[partial.id]!.sha != config.repo.sha
+            ) {
                 version.inc();
             }
+
+            store.meta[partial.id] = {
+                sha: config.repo.sha,
+            };
+
+            const source = join(paths.distExtensions, `${partial.id}.ht`);
+            const image = join(paths.distExtensions, `${partial.id}.png`);
+
+            await ensureDir(dirname(source));
+            await writeFile(
+                source,
+                await getURLContent(partial.source, (res) => {
+                    if (!isSuccessStatusCode(res.statusCode)) {
+                        throw new Error(
+                            `Failed to fetch ${res.url} (Invalid status code: ${res.statusCode})`
+                        );
+                    }
+
+                    if (
+                        !res.headers["content-type"] ||
+                        !/^text\/plain;/.test(res.headers["content-type"])
+                    ) {
+                        throw new Error(
+                            `Failed to fetch ${res.url} (Invalid content type: ${res.headers["content-type"]})`
+                        );
+                    }
+                })
+            );
+            await writeFile(
+                image,
+                partial.image
+                    ? await resolveImage(partial.image, 95)
+                    : placeholder
+            );
+
+            store.extensions.push(
+                ResolvedExtension.create({
+                    ...partial,
+                    type: type as IResolvedExtension["type"],
+                    version: version.toString(),
+                    source: `${urls.dist}/extensions/${basename(source)}`,
+                    image: `${urls.dist}/extensions/${basename(image)}`,
+                })
+            );
+
+            log.succeed(
+                `Processed: ${partial.id} [${relative(
+                    process.cwd(),
+                    file.fullPath
+                )}]`
+            );
+        } catch (err) {
+            console.error(err);
+            log.fail(
+                `Failed to process: ${relative(process.cwd(), file.fullPath)}`
+            );
+            process.exit(1);
         }
-
-        // @ts-ignore
-        delete resolved.code;
-
-        store.meta[resolved.id] = {
-            sha: checkConfigResult.sha,
-        };
-
-        store.extensions.push({
-            ...resolved,
-            version: version.toString(),
-            source: `${distURL}/extensions/${basename(source)}`,
-            image: `${distURL}/extensions/${basename(image)}`,
-        });
-
-        log.succeed(
-            `Processed: ${resolved.id} [${relative(
-                process.cwd(),
-                file.fullPath
-            )}]`
-        );
     }
 
-    await ensureDir(dist);
-    await writeFile(join(dist, "extensions.json"), JSON.stringify(store));
+    await ensureDir(paths.dist);
+    await writeFile(join(paths.dist, "extensions.json"), JSON.stringify(store));
 };
 
 start();

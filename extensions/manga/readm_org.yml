@@ -1,0 +1,10 @@
+name: ReadM.org
+author: zyrouge
+repo:
+    username: yukino-app
+    repo: official-extensions
+    sha: 7a0aa287a4e13d2243f8472af73b9a61aca428b5
+path:
+    source: extensions/manga/readm_org/readm_org.ht
+    image: extensions/manga/readm_org/readm_org.png
+nsfw: false

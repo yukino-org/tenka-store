@@ -1,39 +1,3 @@
-export const ExtensionTypes = ["anime", "manga"] as const;
-export type ExtensionType = typeof ExtensionTypes[number];
-
-export interface BaseExtension {
-    name: string;
-    source: string;
-    image?: string;
-    nsfw: boolean;
-}
-
-export interface ExtensionConfig extends BaseExtension {
-    author: string;
-}
-
-export interface ResolvedExtension extends BaseExtension {
-    id: string;
-    version: ExtensionVersion;
-    type: ExtensionType;
-}
-
-export interface StringifiedResolvedExtension
-    extends Omit<ResolvedExtension, "version"> {
-    version: string;
-}
-
-export interface DisturbutedExtensionsJson {
-    extensions: StringifiedResolvedExtension[];
-    meta: Record<
-        string,
-        {
-            sha: string;
-        }
-    >;
-    lastModified: number;
-}
-
 export class ExtensionVersion {
     constructor(
         public year: number,
