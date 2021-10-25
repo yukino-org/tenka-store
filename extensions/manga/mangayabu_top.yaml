@@ -1,0 +1,10 @@
+name: MangaYabu.top
+author: KyleKun
+repo:
+    username: KyleKun
+    repo: yukino-manga-yabu-extension
+    sha: 62f607d3c3e35268e1fc5b0a0a769981405bb247
+path:
+    source: extensions/manga/mangayabu_top/mangayabu_top.ht
+    image: extensions/manga/mangayabu_top/mangayabu_top.png
+nsfw: false
