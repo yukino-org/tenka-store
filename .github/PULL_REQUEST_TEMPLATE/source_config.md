@@ -26,3 +26,4 @@ Path: `<path>` <!-- Replace with relative path to the config (Example: `Path: an
 -   [ ] This closes an issue (Closes -) <!-- Replace `-` with `#<issue number>` if it does -->
 -   [ ] My code follows the code style of this project.
 -   [ ] I am the owner of the repository or have permissions to modify it.
+-   [ ] This PR is ready to be merged.
