@@ -2,8 +2,11 @@ name: Test (Pull request)
 
 on:
     pull_request:
-        - ready_for_review
-        - review_requested
+        branches:
+            - main
+        types:
+            - ready_for_review
+            - review_requested
 
 jobs:
     build:
