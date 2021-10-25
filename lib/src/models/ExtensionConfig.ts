@@ -10,7 +10,7 @@ export const ExtensionConfig = fields.object({
     }),
     path: fields.object({
         source: fields.string(),
-        image: fields.optional(fields.string()),
+        image: fields.string(),
     }),
     nsfw: fields.boolean(),
 });

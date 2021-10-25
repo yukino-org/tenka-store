@@ -1,10 +1,16 @@
-import { join } from "path";
+import { resolve } from "path";
 
 export const paths = {
-    config: join(__dirname, "../../extensions"),
-    dist: join(__dirname, "../../dist"),
-    distExtensions: join(__dirname, "../../dist/extensions"),
-    placeholder: join(__dirname, "../assets/placeholder.png"),
+    root: resolve(__dirname, "../.."),
+    config: resolve(__dirname, "../../extensions"),
+    dist: resolve(__dirname, "../../dist"),
+    distExtensions: resolve(__dirname, "../../dist/extensions"),
+    placeholder: resolve(__dirname, "../assets/placeholder.png"),
+};
+
+export const repository = {
+    owner: "yukino-app",
+    repo: "yukino",
 };
 
 export const urls = {

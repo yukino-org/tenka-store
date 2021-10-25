@@ -27,17 +27,11 @@ export const partiallyResolveExtension = async (
         throw new Error("'config.path.source' has invalid filename");
     }
 
-    if (
-        config.path.image &&
-        ![".jpeg", ".jpg", ".png"].includes(extname(config.path.image))
-    ) {
+    if (![".jpeg", ".jpg", ".png"].includes(extname(config.path.image))) {
         throw new Error("'config.path.image' has invalid extension");
     }
 
-    if (
-        config.path.image &&
-        basename(config.path.image, extname(config.path.image)) !== filename
-    ) {
+    if (basename(config.path.image, extname(config.path.image)) !== filename) {
         throw new Error("'config.path.image' has different filename");
     }
 
@@ -48,9 +42,7 @@ export const partiallyResolveExtension = async (
         id: `${config.author}.${filename}`,
         author: config.author,
         source: `${endpoint}/${config.path.source}`,
-        image: config.path.image
-            ? `${endpoint}/${config.path.image}`
-            : undefined,
+        image: `${endpoint}/${config.path.image}`,
         nsfw: config.nsfw,
     });
 };

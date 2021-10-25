@@ -5,7 +5,7 @@ export const PartiallyResolvedExtension = fields.object({
     id: fields.string(),
     author: fields.string(),
     source: fields.string(),
-    image: fields.optional(fields.string()),
+    image: fields.string(),
     nsfw: fields.boolean(),
 });
 

@@ -1,6 +1,7 @@
 import { basename, dirname, join, relative } from "path";
 import { emptyDir, ensureDir, readFile, writeFile } from "fs-extra";
-import ora from "ora";
+import chalk from "chalk";
+import consola from "consola";
 import got from "got";
 import readdirp from "readdirp";
 import yaml from "yaml";
@@ -17,38 +18,88 @@ import {
     ResolvedExtension,
 } from "./models/ResolvedExtension";
 
-const start = async () => {
-    await emptyDir(paths.dist);
+export type StartMode = "build" | "scenario/pr";
 
-    const store = Store.create({
-        extensions: [],
-        meta: {},
-        lastModified: Date.now(),
-    });
+export class StoreBuilder {
+    ready = false;
 
-    const placeholder = await resolveImage(paths.placeholder, 96);
+    store?: IStore;
+    oldStore?: IStore;
 
-    const oldRes = await got
-        .get(`${urls.dist}/extensions.json`)
-        .catch(() => null);
+    constructor(public readonly mode: StartMode) {}
 
-    const oldStore: IStore | undefined =
-        oldRes && isSuccessStatusCode(oldRes?.statusCode)
-            ? Store.create(JSON.parse(oldRes.body))
-            : undefined;
+    async initialize() {
+        const started = Date.now();
 
-    for await (const file of readdirp(paths.config)) {
-        const log = ora(
-            `Processing: ${relative(process.cwd(), file.fullPath)}`
+        this.store = Store.create({
+            extensions: [],
+            meta: {},
+            lastModified: Date.now(),
+        });
+
+        const oldRes = await got
+            .get(`${urls.dist}/extensions.json`)
+            .catch(() => null);
+
+        this.oldStore =
+            oldRes && isSuccessStatusCode(oldRes?.statusCode)
+                ? Store.create(JSON.parse(oldRes.body))
+                : undefined;
+
+        this.ready = true;
+        consola.info(
+            `Initialized in ${chalk.cyanBright(`${Date.now() - started}ms`)}`
         );
+    }
 
+    async build(files?: string[]) {
+        this.checkReady();
+
+        const started = Date.now();
+        consola.info(`Building in ${chalk.cyanBright(this.mode)} mode`);
+
+        if (this.mode === "build") {
+            await emptyDir(paths.dist);
+            consola.info(
+                `Removed: ${chalk.cyanBright(relative(paths.root, paths.dist))}`
+            );
+        }
+
+        if (files) {
+            for (const file of files) {
+                await this.resolveFile(file);
+            }
+        } else {
+            for await (const { fullPath: file } of readdirp(paths.config)) {
+                await this.resolveFile(file);
+            }
+        }
+
+        if (this.mode === "build") {
+            const path = join(paths.dist, "extensions.json");
+            await ensureDir(dirname(path));
+            await writeFile(path, JSON.stringify(this.store));
+            consola.success(
+                `Created: ${chalk.cyanBright(relative(paths.root, path))}`
+            );
+        }
+
+        consola.info(
+            `Built in ${chalk.cyanBright(`${Date.now() - started}ms`)}`
+        );
+    }
+
+    async resolveFile(path: string) {
+        this.checkReady();
+
+        const relativePath = relative(paths.root, path);
         try {
-            const type = /([^/\\]+)[\\\/]?$/.exec(dirname(file.fullPath))![1]!;
+            const type = /([^/\\]+)[\\\/]?$/.exec(dirname(path))![1]!;
             const config = ExtensionConfig.create(
-                yaml.parse((await readFile(file.fullPath)).toString())
+                yaml.parse((await readFile(path)).toString())
             );
             const partial = await partiallyResolveExtension(config);
-            const previous = oldStore?.extensions.find(
+            const previous = this.oldStore?.extensions.find(
                 (x) => x.id == partial.id
             );
 
@@ -58,12 +109,12 @@ const start = async () => {
 
             if (
                 previous &&
-                oldStore!.meta[partial.id]!.sha != config.repo.sha
+                this.oldStore!.meta[partial.id]!.sha != config.repo.sha
             ) {
                 version.inc();
             }
 
-            store.meta[partial.id] = {
+            this.store!.meta[partial.id] = {
                 sha: config.repo.sha,
             };
 
@@ -90,14 +141,9 @@ const start = async () => {
                     }
                 })
             );
-            await writeFile(
-                image,
-                partial.image
-                    ? await resolveImage(partial.image, 95)
-                    : placeholder
-            );
+            await writeFile(image, await resolveImage(partial.image, 95));
 
-            store.extensions.push(
+            this.store!.extensions.push(
                 ResolvedExtension.create({
                     ...partial,
                     type: type as IResolvedExtension["type"],
@@ -107,23 +153,29 @@ const start = async () => {
                 })
             );
 
-            log.succeed(
-                `Processed: ${partial.id} [${relative(
-                    process.cwd(),
-                    file.fullPath
-                )}]`
+            consola.success(
+                `Processed: ${chalk.cyanBright(partial.id)} ${chalk.gray(
+                    `[${relativePath}]`
+                )}`
             );
         } catch (err) {
-            console.error(err);
-            log.fail(
-                `Failed to process: ${relative(process.cwd(), file.fullPath)}`
+            consola.error(err);
+            consola.error(
+                `Failed to process: ${chalk.redBright(relativePath)}`
             );
             process.exit(1);
         }
     }
 
-    await ensureDir(paths.dist);
-    await writeFile(join(paths.dist, "extensions.json"), JSON.stringify(store));
-};
+    checkReady() {
+        if (!this.ready) {
+            throw new Error("Builder is not ready");
+        }
+    }
 
-start();
+    static async start(mode: StartMode, files?: string[] | undefined) {
+        const builder = new StoreBuilder(mode);
+        await builder.initialize();
+        await builder.build(files);
+    }
+}
