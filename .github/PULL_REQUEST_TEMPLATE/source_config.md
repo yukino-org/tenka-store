@@ -13,7 +13,7 @@ assignees: ""
 URL: <url>
 Type: <Anime/Manga>
 Language: <language>
-Path: `<path>` <!-- Replace with relative path to the config (Example: `Path: anime/animesite_com`) -->
+Path: `<path>` <!-- Replace with relative path to the config (Example: `Path: anime/animesite_com.yml`) -->
 
 ## Type of change
 
