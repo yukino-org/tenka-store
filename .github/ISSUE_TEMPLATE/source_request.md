@@ -18,5 +18,5 @@ Type: <Anime/Manga>
 
 ## Checklist
 
--   [ ] I have checked for issues with same website before opening to avoid duplicates.
+-   [ ] I have checked for issues with same website and the extensions store before opening to avoid duplicates issues.
 -   [ ] The requested source is available for public and is free-to-use.
