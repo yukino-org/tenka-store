@@ -11,12 +11,9 @@ assignees: ""
 <!-- 3. Remove `<>` when replacing with values -->
 
 URL: <url>
-
-Language: <language>
-
 Type: <Anime/Manga>
-
-Path: <path> <!-- Replace with relative path to the config (Example: `Path: anime/animesite_com`) -->
+Language: <language>
+Path: `<path>` <!-- Replace with relative path to the config (Example: `Path: anime/animesite_com`) -->
 
 ## Type of change
 

@@ -11,10 +11,8 @@ assignees: ""
 <!-- 3. Remove `<>` when replacing with values -->
 
 URL: <url>
-
-Language: <language>
-
 Type: <Anime/Manga>
+Language: <language>
 
 ## Checklist
 
