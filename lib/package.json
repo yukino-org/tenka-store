@@ -2,14 +2,12 @@
     "name": "@yukino-app/extensions-store",
     "version": "0.0.0",
     "private": true,
-    "description": "",
+    "license": "GPL-3.0",
+    "author": "Zyrouge",
     "scripts": {
         "build": "ts-node ./src/build.ts",
         "scenario:pr": "ts-node ./src/scenario/pr.ts"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
     "devDependencies": {
         "@octokit/rest": "^18.12.0",
         "@types/fs-extra": "^9.0.12",
