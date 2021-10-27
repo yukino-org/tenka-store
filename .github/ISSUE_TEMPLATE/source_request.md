@@ -16,5 +16,5 @@ Language: <language>
 
 ## Checklist
 
--   [ ] I have checked for issues with same website and the extensions store before opening to avoid duplicates issues.
+-   [ ] I have read the [Contribution Guidelines](https://yukino-app.github.io/wiki/developers/contribution/#contribution).
 -   [ ] The requested source is available for public and is free-to-use.
