@@ -8,3 +8,4 @@ path:
     source: extensions/manga/mangayabu_top/mangayabu_top.ht
     image: extensions/manga/mangayabu_top/mangayabu_top.png
 nsfw: false
+defaultLanguage: pt_br

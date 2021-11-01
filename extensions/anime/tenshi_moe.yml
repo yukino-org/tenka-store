@@ -8,3 +8,4 @@ path:
     source: extensions/anime/tenshi_moe/tenshi_moe.ht
     image: extensions/anime/tenshi_moe/tenshi_moe.png
 nsfw: false
+defaultLanguage: en

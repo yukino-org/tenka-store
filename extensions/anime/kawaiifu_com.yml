@@ -8,3 +8,4 @@ path:
     source: extensions/anime/kawaiifu_com/kawaiifu_com.ht
     image: extensions/anime/kawaiifu_com/kawaiifu_com.png
 nsfw: false
+defaultLanguage: en

@@ -11,6 +11,7 @@ import { paths, urls } from "./constants";
 import { isSuccessStatusCode } from "./utils";
 import { partiallyResolveExtension } from "./functions/extensions";
 import { getURLContent } from "./functions/getURLContent";
+import { Language } from "./models/Language";
 import { ExtensionVersion } from "./models/Version";
 import { ExtensionConfig } from "./models/ExtensionConfig";
 import {
@@ -113,6 +114,8 @@ export class StoreBuilder {
             ) {
                 version.inc();
             }
+
+            Language.parse(partial.defaultLanguage!);
 
             this.store!.meta[partial.id] = {
                 sha: config.repo.sha,
