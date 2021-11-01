@@ -13,7 +13,7 @@ export const ExtensionConfig = fields.object({
         image: fields.string(),
     }),
     nsfw: fields.boolean(),
-    defaultLanguage: fields.optional(fields.string()),
+    defaultLanguage: fields.string(),
 });
 
 export type IExtensionConfig = FieldType<typeof ExtensionConfig>;

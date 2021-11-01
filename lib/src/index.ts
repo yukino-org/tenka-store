@@ -115,7 +115,7 @@ export class StoreBuilder {
                 version.inc();
             }
 
-            Language.parse(partial.defaultLanguage!);
+            Language.parse(partial.defaultLanguage);
 
             this.store!.meta[partial.id] = {
                 sha: config.repo.sha,
