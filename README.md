@@ -6,6 +6,8 @@
 
 # Extensions Store
 
+[![Deploy](https://github.com/yukino-app/extensions-store/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/yukino-app/extensions-store/actions/workflows/deploy.yml)
+
 ## Structure
 
 -   [./extensions/anime](./extensions/anime) - Contains all the configuration files of anime extensions
