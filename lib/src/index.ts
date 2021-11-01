@@ -8,7 +8,7 @@ import yaml from "yaml";
 import { IStore, Store } from "./models/Store";
 import { resolveImage } from "./functions/image";
 import { paths, urls } from "./constants";
-import { isSuccessStatusCode } from "./utils";
+import { isSuccessStatusCode, sleep } from "./utils";
 import { partiallyResolveExtension } from "./functions/extensions";
 import { getURLContent } from "./functions/getURLContent";
 import { Locale } from "./models/Language";
@@ -69,10 +69,12 @@ export class StoreBuilder {
         if (files) {
             for (const file of files) {
                 await this.resolveFile(file);
+                await sleep(StoreBuilder.timeout);
             }
         } else {
             for await (const { fullPath: file } of readdirp(paths.config)) {
                 await this.resolveFile(file);
+                await sleep(StoreBuilder.timeout);
             }
         }
 
@@ -175,6 +177,8 @@ export class StoreBuilder {
             throw new Error("Builder is not ready");
         }
     }
+
+    static timeout = 400;
 
     static async start(mode: StartMode, files?: string[] | undefined) {
         const builder = new StoreBuilder(mode);
