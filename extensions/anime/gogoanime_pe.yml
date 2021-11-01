@@ -8,4 +8,4 @@ path:
     source: extensions/anime/gogoanime_pe/gogoanime_pe.ht
     image: extensions/anime/gogoanime_pe/gogoanime_pe.png
 nsfw: false
-defaultLanguage: en
+defaultLocale: en

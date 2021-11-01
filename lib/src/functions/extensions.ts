@@ -44,6 +44,6 @@ export const partiallyResolveExtension = async (
         source: `${endpoint}/${config.path.source}`,
         image: `${endpoint}/${config.path.image}`,
         nsfw: config.nsfw,
-        defaultLanguage: config.defaultLanguage,
+        defaultLocale: config.defaultLocale,
     });
 };

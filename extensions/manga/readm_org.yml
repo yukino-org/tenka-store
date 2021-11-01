@@ -8,4 +8,4 @@ path:
     source: extensions/manga/readm_org/readm_org.ht
     image: extensions/manga/readm_org/readm_org.png
 nsfw: false
-defaultLanguage: en
+defaultLocale: en

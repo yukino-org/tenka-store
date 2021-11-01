@@ -2,7 +2,7 @@ import { basename, dirname, join, relative } from "path";
 import { emptyDir, ensureDir, readFile, writeFile } from "fs-extra";
 import chalk from "chalk";
 import consola from "consola";
-import got from "got";
+// import got from "got";
 import readdirp from "readdirp";
 import yaml from "yaml";
 import { IStore, Store } from "./models/Store";
@@ -11,7 +11,7 @@ import { paths, urls } from "./constants";
 import { isSuccessStatusCode } from "./utils";
 import { partiallyResolveExtension } from "./functions/extensions";
 import { getURLContent } from "./functions/getURLContent";
-import { Language } from "./models/Language";
+import { Locale } from "./models/Language";
 import { ExtensionVersion } from "./models/Version";
 import { ExtensionConfig } from "./models/ExtensionConfig";
 import {
@@ -38,14 +38,14 @@ export class StoreBuilder {
             lastModified: Date.now(),
         });
 
-        const oldRes = await got
-            .get(`${urls.dist}/extensions.json`)
-            .catch(() => null);
+        // const oldRes = await got
+        //     .get(`${urls.dist}/extensions.json`)
+        //     .catch(() => null);
 
-        this.oldStore =
-            oldRes && isSuccessStatusCode(oldRes?.statusCode)
-                ? Store.create(JSON.parse(oldRes.body))
-                : undefined;
+        // this.oldStore =
+        //     oldRes && isSuccessStatusCode(oldRes?.statusCode)
+        //         ? Store.create(JSON.parse(oldRes.body))
+        //         : undefined;
 
         this.ready = true;
         consola.info(
@@ -115,7 +115,7 @@ export class StoreBuilder {
                 version.inc();
             }
 
-            Language.parse(partial.defaultLanguage);
+            Locale.parse(partial.defaultLocale);
 
             this.store!.meta[partial.id] = {
                 sha: config.repo.sha,

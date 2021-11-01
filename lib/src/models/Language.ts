@@ -6,14 +6,14 @@ const {
     countries: Record<string, string>;
 } = require("../../assets/languages.json");
 
-export class Language {
+export class Locale {
     constructor(public code: string, public country?: string) {}
 
     toString() {
         return [this.code, this.country].filter((x) => x).join("_");
     }
 
-    static parse(language: string): Language {
+    static parse(language: string): Locale {
         const [code = "", country] = language.split("_");
 
         if (!languages[code]) {
@@ -24,6 +24,6 @@ export class Language {
             throw new Error("Invalid language code");
         }
 
-        return new Language(code, country);
+        return new Locale(code, country);
     }
 }

@@ -7,7 +7,7 @@ export const PartiallyResolvedExtension = fields.object({
     source: fields.string(),
     image: fields.string(),
     nsfw: fields.boolean(),
-    defaultLanguage: fields.string(),
+    defaultLocale: fields.string(),
 });
 
 export type IPartiallyResolvedExtension = FieldType<

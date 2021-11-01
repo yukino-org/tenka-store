@@ -8,4 +8,4 @@ path:
     source: extensions/anime/twist_moe/twist_moe.ht
     image: extensions/anime/twist_moe/twist_moe.png
 nsfw: false
-defaultLanguage: en
+defaultLocale: en
