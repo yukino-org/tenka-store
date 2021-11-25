@@ -9,6 +9,7 @@ import { IStore, Store } from "./models/Store";
 import { resolveImage } from "./functions/image";
 import { paths, urls } from "./constants";
 import { isSuccessStatusCode, sleep } from "./utils";
+import { generateChecksum } from "./functions/checksum";
 import { partiallyResolveExtension } from "./functions/extensions";
 import { getURLContent } from "./functions/getURLContent";
 import { Locale } from "./models/Language";
@@ -172,6 +173,15 @@ export class StoreBuilder {
         }
     }
 
+    async createChecksum() {
+        const path = join(paths.dist, ".checksum");
+        await writeFile(path, generateChecksum());
+
+        consola.success(
+            `Created: ${chalk.cyanBright(relative(paths.root, path))}`
+        );
+    }
+
     checkReady() {
         if (!this.ready) {
             throw new Error("Builder is not ready");
@@ -184,5 +194,6 @@ export class StoreBuilder {
         const builder = new StoreBuilder(mode);
         await builder.initialize();
         await builder.build(files);
+        await builder.createChecksum();
     }
 }
