@@ -3,7 +3,7 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: 12a0b223d889a326ba995ac54d8cdddbd0f7e5f2
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/anime/gogoanime_pe/gogoanime_pe.ht
     image: extensions/anime/gogoanime_pe/gogoanime_pe.png

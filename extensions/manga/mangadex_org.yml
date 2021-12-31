@@ -3,7 +3,7 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: b029efe74bfc3698cb901be9341e1cedcf64ddf4
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/manga/mangadex_org/mangadex_org.ht
     image: extensions/manga/mangadex_org/mangadex_org.png

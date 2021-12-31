@@ -14,6 +14,7 @@ export const ExtensionConfig = fields.object({
     }),
     nsfw: fields.boolean(),
     defaultLocale: fields.string(),
+    enabled: fields.optional(fields.boolean()),
 });
 
 export type IExtensionConfig = FieldType<typeof ExtensionConfig>;

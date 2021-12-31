@@ -3,7 +3,7 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: 9f7f5e0094e555827817136d3a5706338e26f781
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/manga/readm_org/readm_org.ht
     image: extensions/manga/readm_org/readm_org.png

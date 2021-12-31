@@ -3,9 +3,10 @@ author: KyleKun
 repo:
     username: KyleKun
     repo: yukino-manga-yabu-extension
-    sha: 62f607d3c3e35268e1fc5b0a0a769981405bb247
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/manga/mangayabu_top/mangayabu_top.ht
     image: extensions/manga/mangayabu_top/mangayabu_top.png
 nsfw: false
 defaultLocale: pt_br
+enabled: false

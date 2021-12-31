@@ -3,7 +3,7 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: 86dd1516d57d1cf3b6b7697eecb239c06ec86c95
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/anime/twist_moe/twist_moe.ht
     image: extensions/anime/twist_moe/twist_moe.png

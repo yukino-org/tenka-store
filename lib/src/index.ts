@@ -102,6 +102,15 @@ export class StoreBuilder {
             const config = ExtensionConfig.create(
                 yaml.parse((await readFile(path)).toString())
             );
+            if (config.enabled === false) {
+                consola.warn(
+                    `Skipping: ${chalk.cyanBright(relativePath)} ${chalk.gray(
+                        `(Disabled)`
+                    )}`
+                );
+                return;
+            }
+
             const partial = await partiallyResolveExtension(config);
             const previous = this.oldStore?.extensions.find(
                 (x) => x.id == partial.id

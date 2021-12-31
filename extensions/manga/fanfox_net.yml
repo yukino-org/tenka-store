@@ -3,7 +3,7 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: 40a13db9c518025a8e0bc6be918026de7611b40c
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/manga/fanfox_net/fanfox_net.ht
     image: extensions/manga/fanfox_net/fanfox_net.png

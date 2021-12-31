@@ -3,9 +3,10 @@ author: zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    sha: 1cb05997f6c1d10fc520d84b3a64c2bfb96ae3bb
+    sha: db1acea5b17608ea39f29c9066ecf3702b94e1ee
 path:
     source: extensions/anime/kawaiifu_com/kawaiifu_com.ht
     image: extensions/anime/kawaiifu_com/kawaiifu_com.png
 nsfw: false
 defaultLocale: en
+enabled: false
