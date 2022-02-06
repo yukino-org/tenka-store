@@ -20,7 +20,7 @@ jobs:
             - run: dart run ./src/commands/build.dart
               working-directory: ./lib
 
-            # - uses: JamesIves/github-pages-deploy-action@4.1.4
-            #   with:
-            #       branch: dist-${{ env.DEPLOY_MODE }}
-            #       folder: dist
+            - uses: JamesIves/github-pages-deploy-action@4.1.4
+              with:
+                  branch: dist-${{ env.DEPLOY_MODE }}
+                  folder: dist
