@@ -87,6 +87,7 @@ Future<void> main() async {
       checksum: EStore.generateChecksum(),
     );
 
+    print(Constants.outputRepo.ref);
     await File(path.join(outputDir.path, 'store.json')).writeAsString(
       json.encode(store.toJson()),
     );

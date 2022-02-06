@@ -13,13 +13,13 @@ abstract class Constants {
     'yukino-app': <String>['Zyrouge'],
   };
 
-  static const String _refSuffix = bool.hasEnvironment('deploy')
-      ? '-${const String.fromEnvironment('deploy')}'
+  static final String _ref = Platform.environment['DEPLOY_MODE'] != null
+      ? '-${Platform.environment['DEPLOY_MODE']}'
       : '';
 
-  static const GitHubRepository outputRepo = GitHubRepository(
+  static final GitHubRepository outputRepo = GitHubRepository(
     username: 'yukino-app',
     repo: 'extensions-store',
-    sha: 'dist$_refSuffix',
+    ref: 'dist$_ref',
   );
 }

@@ -10,5 +10,5 @@ abstract class Utils {
       'https://raw.githubusercontent.com/$username/$repo/$ref/$path';
 
   static String constructOutputRepoRawURL(final String path) =>
-      'https://raw.githubusercontent.com/${Constants.outputRepo.username}/${Constants.outputRepo.repo}/${Constants.outputRepo.sha}/$path';
+      'https://raw.githubusercontent.com/${Constants.outputRepo.username}/${Constants.outputRepo.repo}/${Constants.outputRepo.ref}/$path';
 }

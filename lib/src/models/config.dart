@@ -5,19 +5,19 @@ class GitHubRepository {
   const GitHubRepository({
     required this.username,
     required this.repo,
-    required this.sha,
+    required this.ref,
   });
 
   factory GitHubRepository.fromJson(final Map<dynamic, dynamic> json) =>
       GitHubRepository(
         username: json['username'] as String,
         repo: json['repo'] as String,
-        sha: json['sha'] as String,
+        ref: json['ref'] as String,
       );
 
   final String username;
   final String repo;
-  final String sha;
+  final String ref;
 }
 
 class Config {
@@ -44,7 +44,7 @@ class Config {
         (final String x) => Utils.constructGitHubRawURL(
           username: repo.username,
           repo: repo.repo,
-          ref: repo.sha,
+          ref: repo.ref,
           path: x,
         ),
       )
