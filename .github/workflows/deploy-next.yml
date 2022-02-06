@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy (Next)
 
 on:
     workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
 
             - run: dart pub get
 
-            - run: dart run ./src/commands/build.dart
+            - run: dart run ./src/commands/build.dart --dart-define="deploy=next"
               working-directory: ./lib
 
             - uses: JamesIves/github-pages-deploy-action@4.1.4

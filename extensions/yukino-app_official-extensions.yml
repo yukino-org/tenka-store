@@ -1,0 +1,13 @@
+repo:
+    username: yukino-app
+    repo: official-extensions
+    sha: 9e1649fe0c9e6121e24a0c37b3711805529e4438
+paths:
+    - FanFox_net.Zyrouge.manga.json
+    - GogoAnime_cm.Zyrouge.anime.json
+    - HAnime_tv.Zyrouge.anime.json
+    - MangaDex_org.Zyrouge.manga.json
+    - ReadM_org.Zyrouge.manga.json
+    - Tenshi_moe.Zyrouge.anime.json
+    - Twist_moe.Zyrouge.anime.json
+    - Zoro_to.Zyrouge.anime.json
