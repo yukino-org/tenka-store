@@ -15,6 +15,7 @@ jobs:
             - uses: dart-lang/setup-dart@v1
 
             - run: dart pub get
+              working-directory: ./lib
 
             - run: dart run ./src/commands/build.dart
               working-directory: ./lib
