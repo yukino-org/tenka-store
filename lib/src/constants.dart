@@ -31,4 +31,6 @@ abstract class Constants {
     repo: 'extensions-store',
     ref: 'dist$_ref',
   );
+
+  static final RegExp githubShaRegex = RegExp(r'\b([a-f0-9]{40})\b');
 }

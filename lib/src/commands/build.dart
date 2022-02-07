@@ -46,9 +46,13 @@ Future<void> main() async {
     final String content = await file.readAsString();
     final Config config = Config.parse(content);
 
-    if (path.basenameWithoutExtension(file.path) !=
-        '${config.repo.username}_${config.repo.repo}') {
+    if (path.basename(file.path) !=
+        '${config.repo.username}_${config.repo.repo}.yml') {
       throw Exception('Invalid filename (${file.path})');
+    }
+
+    if (!Constants.githubShaRegex.hasMatch(config.repo.ref)) {
+      throw Exception('Invalid `repo.ref` (${file.path})');
     }
 
     for (final String url in config.toURLPaths()) {
@@ -102,7 +106,9 @@ Future<void> main() async {
       final EManifestData manifestData =
           EManifestData(lastRef: config.repo.ref);
 
-      final EVersion version = EVersion(now.year, now.month, 0);
+      final EVersion version =
+          previousStoreMetadata?.version ?? EVersion(now.year, now.month, 0);
+
       if (previousStoreMetadata != null &&
           previousManifestData != null &&
           previousManifestData.lastRef != manifestData.lastRef) {
