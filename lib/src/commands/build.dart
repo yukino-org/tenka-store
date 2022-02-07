@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:collection/collection.dart';
 import 'package:extensions/metadata.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -10,15 +11,34 @@ import '../utils.dart';
 Future<void> main() async {
   final Directory configDir = Directory(Constants.configDir);
   final Directory outputDir = Directory(Constants.outputDir);
+  final Directory outputDataDir =
+      Directory(path.join(Constants.outputDir, Constants.outputDataSubDir));
 
   if (await outputDir.exists()) {
     await outputDir.delete(recursive: true);
   }
 
   await outputDir.create(recursive: true);
+  await outputDataDir.create(recursive: true);
 
   final List<FileSystemEntity> files = await configDir.list().toList();
+  final DateTime now = DateTime.now();
+
+  final EStore? previousStore = await Utils.getPreviousOutputRepoFile<EStore>(
+    path: Constants.storeBasename,
+    parser: (final String body) =>
+        EStore.fromJson(json.decode(body) as Map<dynamic, dynamic>),
+  );
+
+  final EManifest? previousManifest =
+      await Utils.getPreviousOutputRepoFile<EManifest>(
+    path: Constants.manifestBasename,
+    parser: (final String body) =>
+        EManifest.fromJson(json.decode(body) as Map<dynamic, dynamic>),
+  );
+
   final List<EStoreMetadata> extensions = <EStoreMetadata>[];
+  final Map<String, EManifestData> manifestDataMap = <String, EManifestData>{};
 
   for (final FileSystemEntity file in files) {
     if (file is! File) throw Exception('Invalid entity: ${file.path}');
@@ -58,12 +78,36 @@ Future<void> main() async {
       }
 
       await (metadata.source as EBase64DS).toLocalFile(
-        ELocalFileDS(root: outputDir.path, file: sourceBasename),
+        ELocalFileDS(
+          root: outputDataDir.path,
+          file: sourceBasename,
+        ),
       );
 
       await (metadata.thumbnail as EBase64DS).toLocalFile(
-        ELocalFileDS(root: outputDir.path, file: thumbnailBasename),
+        ELocalFileDS(
+          root: outputDataDir.path,
+          file: thumbnailBasename,
+        ),
       );
+
+      final EStoreMetadata? previousStoreMetadata =
+          previousStore?.extensions.firstWhereOrNull(
+        (final EStoreMetadata x) => x.metadata.id == metadata.id,
+      );
+
+      final EManifestData? previousManifestData =
+          previousManifest?.data[metadata.id];
+
+      final EManifestData manifestData =
+          EManifestData(lastRef: config.repo.ref);
+
+      final EVersion version = EVersion(now.year, now.month, 0);
+      if (previousStoreMetadata != null &&
+          previousManifestData != null &&
+          previousManifestData.lastRef != manifestData.lastRef) {
+        version.increment();
+      }
 
       extensions.add(
         EStoreMetadata(
@@ -71,14 +115,23 @@ Future<void> main() async {
             name: metadata.name,
             author: metadata.author,
             type: metadata.type,
-            source: ECloudDS(Utils.constructOutputRepoRawURL(sourceBasename)),
-            thumbnail:
-                ECloudDS(Utils.constructOutputRepoRawURL(thumbnailBasename)),
+            source: ECloudDS(
+              Utils.constructOutputRepoRawURL(
+                '${Constants.outputDataSubDir}/$sourceBasename',
+              ),
+            ),
+            thumbnail: ECloudDS(
+              Utils.constructOutputRepoRawURL(
+                '${Constants.outputDataSubDir}$thumbnailBasename',
+              ),
+            ),
             nsfw: metadata.nsfw,
           ),
-          version: EVersion(0, 0, 0),
+          version: version,
         ),
       );
+
+      manifestDataMap[metadata.id] = manifestData;
     }
 
     final EStore store = EStore(
@@ -87,10 +140,15 @@ Future<void> main() async {
       checksum: EStore.generateChecksum(),
     );
 
-    await File(path.join(outputDir.path, 'store.json'))
+    final EManifest manifest = EManifest(manifestDataMap);
+
+    await File(path.join(outputDir.path, Constants.storeBasename))
         .writeAsString(json.encode(store.toJson()));
 
-    await File(path.join(outputDir.path, '.checksum'))
+    await File(path.join(outputDir.path, Constants.checksumBasename))
         .writeAsString(store.checksum);
+
+    await File(path.join(outputDir.path, Constants.manifestBasename))
+        .writeAsString(json.encode(manifest.toJson()));
   }
 }

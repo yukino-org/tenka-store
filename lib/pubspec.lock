@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "1.1.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -92,7 +92,7 @@ packages:
     description:
       path: "."
       ref: extensions
-      resolved-ref: d31262b9985fb0da9097a597237a76e9f7a62722
+      resolved-ref: a56f151f1d2809c41c4f52285f39ab1a41898edb
       url: "git://github.com/yukino-app/packages.git"
     source: git
     version: "1.0.4"
@@ -101,7 +101,7 @@ packages:
     description:
       path: "."
       ref: extensions_metadata
-      resolved-ref: "47e02d3b70cd4388fcbec41748f9cc527f47df27"
+      resolved-ref: "8aee411c2d3e8450ecdc1499936d550852bdcf63"
       url: "git://github.com/yukino-app/packages.git"
     source: git
     version: "0.0.0"
@@ -127,7 +127,7 @@ packages:
       name: hetu_script
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.11"
+    version: "0.3.12"
   html:
     dependency: transitive
     description:
