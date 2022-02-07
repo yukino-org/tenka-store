@@ -128,7 +128,7 @@ Future<void> main() async {
             ),
             thumbnail: ECloudDS(
               Utils.constructOutputRepoRawURL(
-                '${Constants.outputDataSubDir}$thumbnailBasename',
+                '${Constants.outputDataSubDir}/$thumbnailBasename',
               ),
             ),
             nsfw: metadata.nsfw,
