@@ -41,12 +41,7 @@ class Config {
 
   List<String> toURLPaths() => paths
       .map(
-        (final String x) => Utils.constructGitHubRawURL(
-          username: repo.username,
-          repo: repo.repo,
-          ref: repo.ref,
-          path: x,
-        ),
+        (final String x) => '${Utils.constructGitHubRawURL(repo)}/$x',
       )
       .toList();
 }

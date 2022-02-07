@@ -121,16 +121,9 @@ Future<void> main() async {
             name: metadata.name,
             author: metadata.author,
             type: metadata.type,
-            source: ECloudDS(
-              Utils.constructOutputRepoRawURL(
-                '${Constants.outputDataSubDir}/$sourceBasename',
-              ),
-            ),
-            thumbnail: ECloudDS(
-              Utils.constructOutputRepoRawURL(
-                '${Constants.outputDataSubDir}/$thumbnailBasename',
-              ),
-            ),
+            source: ECloudDS('${Constants.outputDataSubDir}/$sourceBasename'),
+            thumbnail:
+                ECloudDS('${Constants.outputDataSubDir}/$thumbnailBasename'),
             nsfw: metadata.nsfw,
           ),
           version: version,
@@ -141,6 +134,10 @@ Future<void> main() async {
     }
 
     final EStore store = EStore(
+      baseURLs: <String, String>{
+        'github': Utils.getGitHubOutputRepoRawBaseURL,
+        'jsdelivr': Utils.getJsDelivrOutputRepoRawBaseURL,
+      },
       extensions: extensions,
       builtAt: DateTime.now(),
       checksum: EStore.generateChecksum(),
