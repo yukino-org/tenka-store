@@ -10,7 +10,7 @@ abstract class Constants {
 
   static const String outputDataSubDir = 'data';
 
-  static const String storeBasename = 'extensions.json';
+  static const String storeBasename = 'store.json';
   static const String manifestBasename = 'manifest.json';
   static const String checksumBasename = '.checksum';
 
