@@ -55,20 +55,21 @@ Future<void> main() async {
       throw Exception('Invalid `repo.ref` (${file.path})');
     }
 
+    final String author = config.author ?? config.repo.username;
+    final Set<String> allowedAuthors = <String>{
+      config.repo.username,
+      ...Constants.specialAuthors[config.repo.username] ?? <String>{},
+    };
+
+    if (!allowedAuthors.contains(author)) {
+      throw Exception('Invalid `author` (${file.path})');
+    }
+
     for (final String url in config.toURLPaths()) {
       final http.Response resp = await http.get(Uri.parse(url));
 
       final EMetadata metadata =
           EMetadata.fromJson(json.decode(resp.body) as Map<dynamic, dynamic>);
-
-      final Set<String> allowedAuthors = <String>{
-        config.repo.username,
-        ...Constants.specialAuthors[config.repo.username] ?? <String>{},
-      };
-
-      if (!allowedAuthors.contains(metadata.author)) {
-        throw Exception('Invalid `author` (${file.path})');
-      }
 
       final String sourceBasename = '${metadata.id}.source.dat';
       final String thumbnailBasename = '${metadata.id}.thumbnail.dat';
@@ -117,9 +118,9 @@ Future<void> main() async {
 
       extensions.add(
         EStoreMetadata(
+          author: author,
           metadata: EMetadata(
             name: metadata.name,
-            author: metadata.author,
             type: metadata.type,
             source: ECloudDS('${Constants.outputDataSubDir}/$sourceBasename'),
             thumbnail:

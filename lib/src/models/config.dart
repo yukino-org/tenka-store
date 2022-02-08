@@ -24,6 +24,7 @@ class Config {
   const Config({
     required this.repo,
     required this.paths,
+    this.author,
   });
 
   factory Config.parse(final String content) {
@@ -31,11 +32,13 @@ class Config {
         loadYaml(content) as Map<dynamic, dynamic>;
 
     return Config(
+      author: parsed['author'] as String?,
       repo: GitHubRepository.fromJson(parsed['repo'] as Map<dynamic, dynamic>),
       paths: (parsed['paths'] as List<dynamic>).cast<String>(),
     );
   }
 
+  final String? author;
   final GitHubRepository repo;
   final List<String> paths;
 
