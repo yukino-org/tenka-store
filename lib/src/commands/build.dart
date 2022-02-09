@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:collection/collection.dart';
 import 'package:extensions/metadata.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -37,7 +36,7 @@ Future<void> main() async {
         EManifest.fromJson(json.decode(body) as Map<dynamic, dynamic>),
   );
 
-  final List<EStoreMetadata> extensions = <EStoreMetadata>[];
+  final Map<String, EStoreMetadata> extensions = <String, EStoreMetadata>{};
   final Map<String, EManifestData> manifestDataMap = <String, EManifestData>{};
 
   for (final FileSystemEntity file in files) {
@@ -97,9 +96,7 @@ Future<void> main() async {
       );
 
       final EStoreMetadata? previousStoreMetadata =
-          previousStore?.extensions.firstWhereOrNull(
-        (final EStoreMetadata x) => x.metadata.id == metadata.id,
-      );
+          previousStore?.extensions[metadata.id];
 
       final EManifestData? previousManifestData =
           previousManifest?.data[metadata.id];
@@ -116,20 +113,20 @@ Future<void> main() async {
         version.increment();
       }
 
-      extensions.add(
-        EStoreMetadata(
-          author: author,
-          metadata: EMetadata(
-            name: metadata.name,
-            type: metadata.type,
-            source: ECloudDS('${Constants.outputDataSubDir}/$sourceBasename'),
-            thumbnail:
-                ECloudDS('${Constants.outputDataSubDir}/$thumbnailBasename'),
-            nsfw: metadata.nsfw,
-          ),
-          version: version,
+      final EStoreMetadata storeMetadata = EStoreMetadata(
+        author: author,
+        metadata: EMetadata(
+          name: metadata.name,
+          type: metadata.type,
+          source: ECloudDS('${Constants.outputDataSubDir}/$sourceBasename'),
+          thumbnail:
+              ECloudDS('${Constants.outputDataSubDir}/$thumbnailBasename'),
+          nsfw: metadata.nsfw,
         ),
+        version: version,
       );
+
+      extensions[storeMetadata.metadata.id] = storeMetadata;
 
       manifestDataMap[metadata.id] = manifestData;
     }
