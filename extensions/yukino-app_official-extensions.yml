@@ -2,7 +2,7 @@ author: Zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    ref: d6a0592749a56d0779f6ab6947f24c20450896d1
+    ref: fca7b50fae1f227278933729d1ee7be985353f7d
 paths:
     - FanFox_net.Zyrouge.manga.json
     - GogoAnime_cm.Zyrouge.anime.json
