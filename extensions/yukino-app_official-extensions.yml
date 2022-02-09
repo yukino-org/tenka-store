@@ -4,11 +4,11 @@ repo:
     repo: official-extensions
     ref: fca7b50fae1f227278933729d1ee7be985353f7d
 paths:
-    - FanFox_net.Zyrouge.manga.json
-    - GogoAnime_cm.Zyrouge.anime.json
-    - HAnime_tv.Zyrouge.anime.json
-    - MangaDex_org.Zyrouge.manga.json
-    - ReadM_org.Zyrouge.manga.json
-    - Tenshi_moe.Zyrouge.anime.json
-    - Twist_moe.Zyrouge.anime.json
-    - Zoro_to.Zyrouge.anime.json
+    - FanFox_net.manga.json
+    - GogoAnime_cm.anime.json
+    - HAnime_tv.anime.json
+    - MangaDex_org.manga.json
+    - ReadM_org.manga.json
+    - Tenshi_moe.anime.json
+    - Twist_moe.anime.json
+    - Zoro_to.anime.json
