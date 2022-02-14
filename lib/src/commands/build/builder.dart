@@ -22,6 +22,12 @@ class EStoreBuilder {
   }
 
   Future<void> build() async {
+    final Directory cacheDir = Directory(Constants.cacheDir);
+    if (await cacheDir.exists()) {
+      await cacheDir.delete(recursive: true);
+    }
+    await cacheDir.create(recursive: true);
+
     final List<FileSystemEntity> dirs = await configDir.list().toList();
 
     for (final FileSystemEntity x in dirs) {
@@ -104,31 +110,32 @@ class EStoreBuilder {
     if (!clonedRepos.containsKey(stringifiedRepo)) {
       await FSUtils.ensureDirectory(Directory(clonedDir));
 
-      // for (final MapEntry<String, Future<GitResult> Function()> x
-      //     in <String, Future<GitResult> Function()>{
-      //   'clone': () async => Git.run(
-      //         args: <String>[
-      //           'clone',
-      //           config.repo.cloneURL,
-      //         ],
-      //         workingDirectory: path.dirname(clonedDir),
-      //       ),
-      //   'resetSHA': () async => Git.run(
-      //         args: <String>[
-      //           'reset',
-      //           config.repo.ref,
-      //           '--hard',
-      //         ],
-      //         workingDirectory: clonedDir,
-      //       ),
-      // }.entries) {
-      //   final GitResult res = await x.value();
-      //   if (!res.success) {
-      //     throw Exception(
-      //       'Git task failed: ${x.key}\nStderr: ${res.result.stderr}',
-      //     );
-      //   }
-      // }
+      for (final MapEntry<String, Future<GitResult> Function()> x
+          in <String, Future<GitResult> Function()>{
+        'clone': () async => Git.run(
+              args: <String>[
+                'clone',
+                config.repo.cloneURL,
+                config.repo.ref,
+              ],
+              workingDirectory: path.dirname(clonedDir),
+            ),
+        'resetSHA': () async => Git.run(
+              args: <String>[
+                'reset',
+                config.repo.ref,
+                '--hard',
+              ],
+              workingDirectory: clonedDir,
+            ),
+      }.entries) {
+        final GitResult res = await x.value();
+        if (!res.success) {
+          throw Exception(
+            'Git task failed: ${x.key}\nStderr: ${res.result.stderr}',
+          );
+        }
+      }
 
       clonedRepos[stringifiedRepo] = clonedDir;
     }

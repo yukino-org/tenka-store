@@ -61,7 +61,7 @@ class SConfig {
   Map<dynamic, dynamic> toDataJson() => <dynamic, dynamic>{
         'id': id,
         'version': version.toString(),
-        'pRepo': pRepo?.toJson(),
+        'pRepo': repo.toJson(),
       };
 
   bool get hasRepoChanged => pRepo != null && pRepo == repo;
