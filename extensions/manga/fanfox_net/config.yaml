@@ -1,0 +1,13 @@
+name: FanFox.net
+author: Zyrouge
+repo:
+    username: yukino-app
+    repo: official-extensions
+    ref: fca7b50fae1f227278933729d1ee7be985353f7d
+source:
+    root: extensions/anime/fanfox_net
+    file: main.ht
+thumbnail:
+    root: extensions/anime/fanfox_net
+    file: logo.png
+nsfw: false

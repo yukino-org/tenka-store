@@ -12,8 +12,16 @@ dependencies:
         git:
             url: git://github.com/yukino-app/packages.git
             ref: extensions
+    extensions_dev_tools:
+        git:
+            url: git://github.com/yukino-app/packages.git
+            ref: extensions_dev_tools
     http: ^0.13.4
     path: ^1.8.1
+    utilx:
+        git:
+            url: git://github.com/yukino-app/packages.git
+            ref: utilx
     yaml: ^3.1.0
 
 dev_dependencies:

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
-import './models/config.dart';
+import './models/repo.dart';
 
 abstract class Constants {
   static final String configDir =
@@ -8,7 +8,12 @@ abstract class Constants {
 
   static final String outputDir = path.join(Directory.current.path, '../dist');
 
+  static final String cacheDir = path.join(Directory.current.path, '../.cache');
+
   static const String outputDataSubDir = 'data';
+
+  static const String configBasename = 'config.yaml';
+  static const String configDataBasename = 'config.data.json';
 
   static const String storeBasename = 'store.json';
   static const String manifestBasename = 'manifest.json';
@@ -26,7 +31,7 @@ abstract class Constants {
   static final String _ref =
       _deployModeValue != null ? '-$_deployModeValue' : '';
 
-  static final GitHubRepository outputRepo = GitHubRepository(
+  static final SGitHubRepository outputRepo = SGitHubRepository(
     username: 'yukino-app',
     repo: 'extensions-store',
     ref: 'dist$_ref',

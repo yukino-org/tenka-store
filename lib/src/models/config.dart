@@ -1,50 +1,83 @@
+import 'dart:convert';
+import 'package:extensions/metadata.dart';
+import 'package:utilx/utilities/utils.dart';
 import 'package:yaml/yaml.dart';
-import '../utils.dart';
+import './repo.dart';
 
-class GitHubRepository {
-  const GitHubRepository({
-    required this.username,
+class SConfig {
+  const SConfig({
+    required this.id,
+    required this.name,
+    required this.author,
     required this.repo,
-    required this.ref,
+    required this.source,
+    required this.thumbnail,
+    required this.nsfw,
+    required this.version,
+    required this.pRepo,
   });
 
-  factory GitHubRepository.fromJson(final Map<dynamic, dynamic> json) =>
-      GitHubRepository(
-        username: json['username'] as String,
-        repo: json['repo'] as String,
-        ref: json['ref'] as String,
-      );
+  factory SConfig.parse(
+    final String cConfig, [
+    final String? cConfigData,
+  ]) {
+    final Map<dynamic, dynamic> pConfig =
+        loadYaml(cConfig) as Map<dynamic, dynamic>;
 
-  final String username;
-  final String repo;
-  final String ref;
-}
+    final Map<dynamic, dynamic>? pConfigData = cConfigData != null
+        ? json.decode(cConfigData) as Map<dynamic, dynamic>
+        : null;
 
-class Config {
-  const Config({
-    required this.repo,
-    required this.paths,
-    this.author,
-  });
-
-  factory Config.parse(final String content) {
-    final Map<dynamic, dynamic> parsed =
-        loadYaml(content) as Map<dynamic, dynamic>;
-
-    return Config(
-      author: parsed['author'] as String?,
-      repo: GitHubRepository.fromJson(parsed['repo'] as Map<dynamic, dynamic>),
-      paths: (parsed['paths'] as List<dynamic>).cast<String>(),
+    return SConfig(
+      id: pConfigData?['id'] as String? ?? _newID(),
+      name: pConfig['name'] as String,
+      author: pConfig['author'] as String?,
+      repo:
+          SGitHubRepository.fromJson(pConfig['repo'] as Map<dynamic, dynamic>),
+      source: _parseConfigDS(pConfig['source'] as Map<dynamic, dynamic>),
+      thumbnail: _parseConfigDS(pConfig['thumbnail'] as Map<dynamic, dynamic>),
+      nsfw: pConfig['nsfw'] as bool,
+      version: pConfigData != null
+          ? EVersion.parse(pConfigData['version'] as String)
+          : _newVersion(),
+      pRepo: pConfigData != null
+          ? SGitHubRepository.fromJson(
+              pConfigData['pRepo'] as Map<dynamic, dynamic>,
+            )
+          : null,
     );
   }
 
+  final String id;
+  final String name;
   final String? author;
-  final GitHubRepository repo;
-  final List<String> paths;
+  final SGitHubRepository repo;
+  final ELocalFileDS source;
+  final ELocalFileDS thumbnail;
+  final bool nsfw;
+  final EVersion version;
+  final SGitHubRepository? pRepo;
 
-  List<String> toURLPaths() => paths
-      .map(
-        (final String x) => '${Utils.constructGitHubRawURL(repo)}/$x',
-      )
-      .toList();
+  Map<dynamic, dynamic> toDataJson() => <dynamic, dynamic>{
+        'id': id,
+        'version': version.toString(),
+        'pRepo': pRepo?.toJson(),
+      };
+
+  bool get hasRepoChanged => pRepo != null && pRepo == repo;
+
+  static String _newID() => StringUtils.toHex(
+        '${DateTime.now().millisecondsSinceEpoch}-${StringUtils.random()}',
+      );
+
+  static EVersion _newVersion() {
+    final DateTime now = DateTime.now();
+    return EVersion(now.year, now.month, 0);
+  }
+
+  static ELocalFileDS _parseConfigDS(final Map<dynamic, dynamic> json) =>
+      ELocalFileDS(
+        root: json['root'] as String,
+        file: json['file'] as String,
+      );
 }
