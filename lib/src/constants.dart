@@ -7,13 +7,12 @@ abstract class Constants {
       path.join(Directory.current.path, '../extensions');
 
   static final String outputDir = path.join(Directory.current.path, '../dist');
+  static final String outputDataDir = path.join(outputDir, 'data');
 
   static final String cacheDir = path.join(Directory.current.path, '../.cache');
 
-  static const String outputDataSubDir = 'data';
-
   static const String configBasename = 'config.yaml';
-  static const String configDataBasename = 'config.data.json';
+  static const String configDataBasename = '_data.json';
 
   static const String storeBasename = 'store.json';
   static const String manifestBasename = 'manifest.json';

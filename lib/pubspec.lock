@@ -317,7 +317,7 @@ packages:
     description:
       path: "."
       ref: utilx
-      resolved-ref: "6bcf446cda043e70a46cdd8f8ae56312eafd77b2"
+      resolved-ref: fa10d947ad86c504ff63c350dfa91523ff271780
       url: "git://github.com/yukino-app/packages.git"
     source: git
     version: "0.0.0"

@@ -3,11 +3,11 @@ author: Zyrouge
 repo:
     username: yukino-app
     repo: official-extensions
-    ref: fca7b50fae1f227278933729d1ee7be985353f7d
+    ref: 724fc16638726580ff2b82886b26c3816895fa87
 source:
-    root: extensions/anime/fanfox_net
+    root: extensions/manga/fanfox_net/src
     file: main.ht
 thumbnail:
-    root: extensions/anime/fanfox_net
+    root: extensions/manga/fanfox_net
     file: logo.png
 nsfw: false

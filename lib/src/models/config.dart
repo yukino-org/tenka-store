@@ -59,6 +59,7 @@ class SConfig {
   final SGitHubRepository? pRepo;
 
   Map<dynamic, dynamic> toDataJson() => <dynamic, dynamic>{
+        r'$note': 'This is a generated file, do not edit this.',
         'id': id,
         'version': version.toString(),
         'pRepo': repo.toJson(),
@@ -67,7 +68,7 @@ class SConfig {
   bool get hasRepoChanged => pRepo != null && pRepo == repo;
 
   static String _newID() => StringUtils.toHex(
-        '${DateTime.now().millisecondsSinceEpoch}-${StringUtils.random()}',
+        '${DateTime.now().millisecondsSinceEpoch}-${StringUtils.random(inputLength: 3)}',
       );
 
   static EVersion _newVersion() {

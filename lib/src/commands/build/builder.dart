@@ -22,11 +22,9 @@ class EStoreBuilder {
   }
 
   Future<void> build() async {
-    final Directory cacheDir = Directory(Constants.cacheDir);
-    if (await cacheDir.exists()) {
-      await cacheDir.delete(recursive: true);
-    }
-    await cacheDir.create(recursive: true);
+    await FSUtils.recreateDirectory(cacheDir);
+    await FSUtils.recreateDirectory(outputDir);
+    await FSUtils.ensureDirectory(outputDataDir);
 
     final List<FileSystemEntity> dirs = await configDir.list().toList();
 
@@ -148,7 +146,7 @@ class EStoreBuilder {
     );
 
     final String nSourceSubPath =
-        '${Constants.outputDataSubDir}/${config.id}.source.dat';
+        '${path.basename(Constants.outputDataDir)}/${config.id}.s.dat';
 
     await nSource.toLocalFile(
       ELocalFileDS.fromFullPath(
@@ -164,7 +162,7 @@ class EStoreBuilder {
     );
 
     final String nThumbnailSubPath =
-        '${Constants.outputDataSubDir}/${config.id}.thumbnail.dat';
+        '${path.basename(Constants.outputDataDir)}/${config.id}.t.dat';
 
     await nThumbnail.toLocalFile(
       ELocalFileDS.fromFullPath(
@@ -207,24 +205,10 @@ class EStoreBuilder {
     return EBase64DS(await runtime.compileScriptFile(source.file));
   }
 
-  Future<EStore?> _getPreviousStore() async =>
-      getPreviousOutputRepoFile<EStore>(
-        path: Constants.storeBasename,
-        parser: (final String body) =>
-            EStore.fromJson(json.decode(body) as Map<dynamic, dynamic>),
-      );
-
-  Future<EManifest?> _getPreviousManifest() async =>
-      getPreviousOutputRepoFile<EManifest>(
-        path: Constants.manifestBasename,
-        parser: (final String body) =>
-            EManifest.fromJson(json.decode(body) as Map<dynamic, dynamic>),
-      );
-
   static final Directory configDir = Directory(Constants.configDir);
   static final Directory outputDir = Directory(Constants.outputDir);
-  static final Directory outputDataDir =
-      Directory(path.join(Constants.outputDir, Constants.outputDataSubDir));
+  static final Directory outputDataDir = Directory(Constants.outputDataDir);
+  static final Directory cacheDir = Directory(Constants.cacheDir);
 
   static Future<T?> getPreviousOutputRepoFile<T>({
     required final String path,

@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
-import 'package:utilx/utilities/utils.dart';
 import '../constants.dart';
 import '../models/repo.dart';
 
