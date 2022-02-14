@@ -30,4 +30,8 @@ jobs:
                   git config --global user.email 'yukino-app@users.noreply.github.com'
                   git add extensions/**/_data.json
                   git commit --allow-empty -m "chore(boat): push modified data files"
-                  git push
+
+            - uses: ad-m/github-push-action@master
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: ${{ github.ref }}
