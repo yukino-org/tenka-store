@@ -1,0 +1,13 @@
+name: HAnime.tv
+author: Zyrouge
+repo:
+    username: yukino-app
+    repo: official-extensions
+    ref: 724fc16638726580ff2b82886b26c3816895fa87
+source:
+    root: extensions/anime/hanime_tv/src
+    file: main.ht
+thumbnail:
+    root: extensions/anime/hanime_tv
+    file: logo.png
+nsfw: false

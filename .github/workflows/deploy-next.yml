@@ -24,3 +24,10 @@ jobs:
               with:
                   branch: dist-${{ env.DEPLOY_MODE }}
                   folder: dist
+
+            - run: |
+                  git config --global user.name 'Snow Boat'
+                  git config --global user.email 'yukino-app@users.noreply.github.com'
+                  git add extensions/**/_data.json
+                  git commit -am "chore(boat): push modified data files"
+                  git push

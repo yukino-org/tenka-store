@@ -15,7 +15,6 @@ abstract class Constants {
   static const String configDataBasename = '_data.json';
 
   static const String storeBasename = 'store.json';
-  static const String manifestBasename = 'manifest.json';
   static const String checksumBasename = '.checksum';
 
   static final Map<String, List<String>> specialAuthors =

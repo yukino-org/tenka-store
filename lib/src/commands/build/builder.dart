@@ -48,16 +48,11 @@ class EStoreBuilder {
       checksum: EStore.generateChecksum(),
     );
 
-    final EManifest manifest = EManifest(manifestDataMap);
-
     await File(path.join(outputDir.path, Constants.storeBasename))
         .writeAsString(json.encode(store.toJson()));
 
     await File(path.join(outputDir.path, Constants.checksumBasename))
         .writeAsString(store.checksum);
-
-    await File(path.join(outputDir.path, Constants.manifestBasename))
-        .writeAsString(json.encode(manifest.toJson()));
   }
 
   Future<void> _loadMetadata(final Directory currentDir) async {
