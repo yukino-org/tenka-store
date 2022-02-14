@@ -5,6 +5,8 @@ on:
 
 env:
     DEPLOY_MODE: next
+    GIT_CONFIG_NAME: Snow Boat
+    GIT_CONFIG_EMAIL: yukino-app@users.noreply.github.com
 
 jobs:
     build:
@@ -24,15 +26,17 @@ jobs:
               with:
                   branch: dist-${{ env.DEPLOY_MODE }}
                   folder: dist
+                  commit-message: "chore(boat): dist generated from ${{ github.sha }}}"
+                  git-config-name: ${{ env.GIT_CONFIG_NAME }}
+                  git-config-email: ${{ env.GIT_CONFIG_EMAIL }}
 
             - run: |
-                  git config --local user.name 'Snow Boat'
-                  git config --local user.email 'yukino-app@users.noreply.github.com'
+                  git config --local user.name '${{ env.GIT_CONFIG_NAME }}'
+                  git config --local user.email '${{ env.GIT_CONFIG_EMAIL }}'
                   git add extensions/**/_data.json
-                  git commit --allow-empty -m "chore(boat): push modified data files"
+                  git commit --allow-empty -m "chore(boat): data files generated from ${{ github.sha }}"
 
             - uses: ad-m/github-push-action@master
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   branch: ${{ github.ref }}
-                  commit-message: "chore(boat): dist generated from ${{ github.sha }}}"
