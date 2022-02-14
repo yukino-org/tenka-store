@@ -1,2 +1,7 @@
 node_modules
 dist
+.cache
+.dart_tool
+.packages
+.pub-cache
+.pub
