@@ -26,7 +26,7 @@ jobs:
               with:
                   branch: dist-${{ env.DEPLOY_MODE }}
                   folder: dist
-                  commit-message: "chore(boat): dist generated from ${{ github.sha }}}"
+                  commit-message: "chore(boat): dist generated from ${{ github.sha }}"
                   git-config-name: ${{ env.GIT_CONFIG_NAME }}
                   git-config-email: ${{ env.GIT_CONFIG_EMAIL }}
 
