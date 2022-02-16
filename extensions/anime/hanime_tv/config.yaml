@@ -10,4 +10,4 @@ source:
 thumbnail:
     root: extensions/anime/hanime_tv
     file: logo.png
-nsfw: false
+nsfw: true
