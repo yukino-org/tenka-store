@@ -10,23 +10,23 @@ environment:
 dependencies:
     extensions:
         git:
-            url: git://github.com/yukino-app/packages.git
+            url: git://github.com/yukino-org/packages.git
             ref: extensions
     extensions_dev_tools:
         git:
-            url: git://github.com/yukino-app/packages.git
+            url: git://github.com/yukino-org/packages.git
             ref: extensions_dev_tools
     http: ^0.13.4
     path: ^1.8.1
     utilx:
         git:
-            url: git://github.com/yukino-app/packages.git
+            url: git://github.com/yukino-org/packages.git
             ref: utilx
     yaml: ^3.1.0
 
 dev_dependencies:
     devx:
         git:
-            url: git://github.com/yukino-app/packages.git
+            url: git://github.com/yukino-org/packages.git
             ref: devx
     lint: ^1.5.3

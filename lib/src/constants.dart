@@ -19,7 +19,7 @@ abstract class Constants {
 
   static final Map<String, List<String>> specialAuthors =
       <String, List<String>>{
-    'yukino-app': <String>['Zyrouge'],
+    'yukino-org': <String>['Zyrouge'],
   };
 
   static const String _deployMode = 'DEPLOY_MODE';
@@ -30,7 +30,7 @@ abstract class Constants {
       _deployModeValue != null ? '-$_deployModeValue' : '';
 
   static final SGitHubRepository outputRepo = SGitHubRepository(
-    username: 'yukino-app',
+    username: 'yukino-org',
     repo: 'extensions-store',
     ref: 'dist$_ref',
   );

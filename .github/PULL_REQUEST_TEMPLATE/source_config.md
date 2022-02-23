@@ -23,7 +23,7 @@ Path: `<path>` <!-- Replace with relative path to the config (Example: `Path: an
 
 ## Checklist
 
--   [ ] I have read the [Contribution Guidelines](https://yukino-app.github.io/wiki/developers/contribution/#contribution).
+-   [ ] I have read the [Contribution Guidelines](https://yukino-org.github.io/wiki/developers/contribution/#contribution).
 -   [ ] This closes an issue (Closes -) <!-- Replace `-` with `#<issue number>` if it does -->
 -   [ ] I am the owner of the repository or have permissions to modify it.
 -   [ ] This PR is ready to be merged.

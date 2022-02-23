@@ -16,5 +16,5 @@ Language: <language>
 
 ## Checklist
 
--   [ ] I have read the [Contribution Guidelines](https://yukino-app.github.io/wiki/developers/contribution/#contribution).
+-   [ ] I have read the [Contribution Guidelines](https://yukino-org.github.io/wiki/developers/contribution/#contribution).
 -   [ ] The requested source is available for public and is free-to-use.
