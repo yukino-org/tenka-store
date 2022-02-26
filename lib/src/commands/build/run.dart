@@ -1,7 +1,7 @@
 import './builder.dart';
 
 Future<void> main() async {
-  final EStoreBuilder builder = EStoreBuilder();
+  final TenkaStoreBuilder builder = TenkaStoreBuilder();
   await builder.initialize();
   await builder.build();
   await builder.dispose();

@@ -6,9 +6,9 @@
 
 # Tenka Store
 
-The project's name "Tenka" meaning "addition" (in Japanese) was named after the previous name "extension".
+🏪 Where all Tenka(s) come together. The project's name "Tenka" meaning "addition" (in Japanese) was named after the previous name "extension".
 
-The developer of this application does not have any affiliation with any of the third-party sources.
+The developer of this application is not responsible for any content displayed and does not have any affiliation with any of the third-party sources in this repository. Use this at your own risk.
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Deploy](https://github.com/yukino-org/tenka-store/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/yukino-org/tenka-store/actions/workflows/deploy.yml)

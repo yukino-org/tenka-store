@@ -1,5 +1,5 @@
-name: extensions_store
-description: Extensions store of Yukino.
+name: tenka_store
+description: "🏪 Where all Tenka(s) come together."
 version: 0.0.0
 
 publish_to: none
@@ -8,25 +8,24 @@ environment:
     sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-    extensions:
-        git:
-            url: git://github.com/yukino-org/packages.git
-            ref: extensions
-    extensions_dev_tools:
-        git:
-            url: git://github.com/yukino-org/packages.git
-            ref: extensions_dev_tools
     http: ^0.13.4
     path: ^1.8.1
+    tenka:
+        git:
+            url: git://github.com/yukino-org/packages.git
+            ref: dart_tenka
+    tenka_dev_tools:
+        git:
+            url: git://github.com/yukino-org/packages.git
+            ref: dart_tenka_dev_tools
     utilx:
         git:
             url: git://github.com/yukino-org/packages.git
-            ref: utilx
+            ref: dart_utilx
     yaml: ^3.1.0
 
 dev_dependencies:
     devx:
         git:
             url: git://github.com/yukino-org/packages.git
-            ref: devx
-    lint: ^1.5.3
+            ref: dart_devx

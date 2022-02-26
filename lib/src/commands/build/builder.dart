@@ -1,24 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:extensions/metadata.dart';
-import 'package:extensions/runtime.dart';
-import 'package:extensions_dev_tools/tools.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:tenka/tenka.dart';
+import 'package:tenka_dev_tools/tools.dart';
 import 'package:utilx/utilities/utils.dart';
 import '../../constants.dart';
 import '../../models/config.dart';
 import '../../utils/git.dart';
 
-class EStoreBuilder {
+class TenkaStoreBuilder {
   final DateTime now = DateTime.now();
 
-  final Map<String, EMetadata> extensions = <String, EMetadata>{};
-  final Map<String, EManifestData> manifestDataMap = <String, EManifestData>{};
+  final Map<String, TenkaMetadata> extensions = <String, TenkaMetadata>{};
   final Map<String, String> clonedRepos = <String, String>{};
 
   Future<void> initialize() async {
-    await DTEnvironment.prepare();
+    await TenkaDevEnvironment.prepare();
   }
 
   Future<void> build() async {
@@ -38,14 +36,14 @@ class EStoreBuilder {
       }
     }
 
-    final EStore store = EStore(
+    final TenkaStore store = TenkaStore(
       baseURLs: <String, String>{
         'github': Git.outputRepoGitHubRawURL,
         'jsdelivr': Git.outputRepoJsDelivrURL,
       },
       extensions: extensions,
       builtAt: now,
-      checksum: EStore.generateChecksum(),
+      checksum: TenkaStore.generateChecksum(),
     );
 
     await File(path.join(outputDir.path, Constants.storeBasename))
@@ -75,8 +73,8 @@ class EStoreBuilder {
       throw Exception('Invalid `repo.ref` (${configFile.path})');
     }
 
-    final EType nType = EnumUtils.find(
-      EType.values,
+    final TenkaType nType = EnumUtils.find(
+      TenkaType.values,
       path.basename(path.dirname(currentDir.path)),
     );
 
@@ -133,8 +131,8 @@ class EStoreBuilder {
       clonedRepos[stringifiedRepo] = clonedDir;
     }
 
-    final EBase64DS nSource = await _compileSource(
-      ELocalFileDS(
+    final TenkaBase64DS nSource = await _compileSource(
+      TenkaLocalFileDS(
         root: path.join(clonedDir, config.source.root),
         file: config.source.file,
       ),
@@ -144,13 +142,14 @@ class EStoreBuilder {
         '${path.basename(Constants.outputDataDir)}/${config.id}.s.dat';
 
     await nSource.toLocalFile(
-      ELocalFileDS.fromFullPath(
+      TenkaLocalFileDSConverter.converter.fromFullPath(
         path.join(Constants.outputDir, nSourceSubPath),
       ),
     );
 
-    final EBase64DS nThumbnail = await EBase64DS.fromLocalFile(
-      ELocalFileDS(
+    final TenkaBase64DS nThumbnail =
+        await TenkaBase64DSConverter.converter.fromLocalFile(
+      TenkaLocalFileDS(
         root: path.join(clonedDir, config.source.root),
         file: config.source.file,
       ),
@@ -160,44 +159,41 @@ class EStoreBuilder {
         '${path.basename(Constants.outputDataDir)}/${config.id}.t.dat';
 
     await nThumbnail.toLocalFile(
-      ELocalFileDS.fromFullPath(
+      TenkaLocalFileDSConverter.converter.fromFullPath(
         path.join(Constants.outputDir, nThumbnailSubPath),
       ),
     );
-
-    final EManifestData nManifestData = EManifestData(lastRef: config.repo.ref);
 
     if (config.hasRepoChanged) {
       config.version.increment();
     }
 
-    final EMetadata nMetadata = EMetadata(
+    final TenkaMetadata nMetadata = TenkaMetadata(
       id: config.id,
       name: config.name,
       type: nType,
       author: nAuthor,
-      source: ECloudDS(nSourceSubPath),
-      thumbnail: ECloudDS(nThumbnailSubPath),
+      source: TenkaCloudDS(nSourceSubPath),
+      thumbnail: TenkaCloudDS(nThumbnailSubPath),
       nsfw: config.nsfw,
       version: config.version,
     );
 
     extensions[nMetadata.id] = nMetadata;
-    manifestDataMap[nMetadata.id] = nManifestData;
   }
 
   Future<void> dispose() async {
-    await DTEnvironment.dispose();
+    await TenkaDevEnvironment.dispose();
   }
 
-  Future<EBase64DS> _compileSource(final ELocalFileDS source) async {
-    final ERuntimeInstance runtime = await ERuntimeManager.create(
-      ERuntimeInstanceOptions(
+  Future<TenkaBase64DS> _compileSource(final TenkaLocalFileDS source) async {
+    final TenkaRuntimeInstance runtime = await TenkaRuntimeManager.create(
+      TenkaRuntimeInstanceOptions(
         hetuSourceContext: HTFileSystemResourceContext(root: source.root),
       ),
     );
     await runtime.loadScriptCode('', appendDefinitions: true);
-    return EBase64DS(await runtime.compileScriptFile(source.file));
+    return TenkaBase64DS(await runtime.compileScriptFile(source.file));
   }
 
   static final Directory configDir = Directory(Constants.configDir);

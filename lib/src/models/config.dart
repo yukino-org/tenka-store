@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:extensions/metadata.dart';
+import 'package:tenka/tenka.dart';
 import 'package:utilx/utilities/utils.dart';
 import 'package:yaml/yaml.dart';
 import './repo.dart';
@@ -38,7 +38,7 @@ class SConfig {
       thumbnail: _parseConfigDS(pConfig['thumbnail'] as Map<dynamic, dynamic>),
       nsfw: pConfig['nsfw'] as bool,
       version: pConfigData != null
-          ? EVersion.parse(pConfigData['version'] as String)
+          ? TenkaVersion.parse(pConfigData['version'] as String)
           : _newVersion(),
       pRepo: pConfigData != null
           ? SGitHubRepository.fromJson(
@@ -52,10 +52,10 @@ class SConfig {
   final String name;
   final String? author;
   final SGitHubRepository repo;
-  final ELocalFileDS source;
-  final ELocalFileDS thumbnail;
+  final TenkaLocalFileDS source;
+  final TenkaLocalFileDS thumbnail;
   final bool nsfw;
-  final EVersion version;
+  final TenkaVersion version;
   final SGitHubRepository? pRepo;
 
   Map<dynamic, dynamic> toDataJson() => <dynamic, dynamic>{
@@ -71,13 +71,13 @@ class SConfig {
         '${DateTime.now().millisecondsSinceEpoch}-${StringUtils.random(inputLength: 3)}',
       );
 
-  static EVersion _newVersion() {
+  static TenkaVersion _newVersion() {
     final DateTime now = DateTime.now();
-    return EVersion(now.year, now.month, 0);
+    return TenkaVersion(now.year, now.month, 0);
   }
 
-  static ELocalFileDS _parseConfigDS(final Map<dynamic, dynamic> json) =>
-      ELocalFileDS(
+  static TenkaLocalFileDS _parseConfigDS(final Map<dynamic, dynamic> json) =>
+      TenkaLocalFileDS(
         root: json['root'] as String,
         file: json['file'] as String,
       );
