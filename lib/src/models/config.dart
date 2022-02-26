@@ -65,7 +65,7 @@ class SConfig {
         'pRepo': repo.toJson(),
       };
 
-  bool get hasRepoChanged => pRepo != null && pRepo == repo;
+  bool get hasRepoChanged => pRepo != null && pRepo != repo;
 
   static String _newID() => StringUtils.toHex(
         '${DateTime.now().millisecondsSinceEpoch}-${StringUtils.random(inputLength: 3)}',

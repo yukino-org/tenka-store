@@ -2,7 +2,7 @@
 name: Source request
 about: Support for certain anime/manga source
 title: "[Source request] <website name>"
-labels: "extensions: request"
+labels: "modules: request"
 assignees: ""
 ---
 

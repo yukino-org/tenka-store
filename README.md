@@ -15,9 +15,9 @@ The developer of this application is not responsible for any content displayed a
 
 ## Project Structure
 
--   [./extensions/anime](./extensions/anime) - Contains all the configuration files of anime extensions.
--   [./extensions/manga](./extensions/manga) - Contains all the configuration files of anime extensions.
--   [./lib](./lib) - Contains the extensions store builder
+-   [./modules/anime](./modules/anime) - Contains all the configuration files of anime modules.
+-   [./modules/manga](./modules/manga) - Contains all the configuration files of anime modules.
+-   [./lib](./lib) - Contains the store builder
 
 ## License
 

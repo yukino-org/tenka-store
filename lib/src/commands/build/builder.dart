@@ -12,7 +12,7 @@ import '../../utils/git.dart';
 class TenkaStoreBuilder {
   final DateTime now = DateTime.now();
 
-  final Map<String, TenkaMetadata> extensions = <String, TenkaMetadata>{};
+  final Map<String, TenkaMetadata> modules = <String, TenkaMetadata>{};
   final Map<String, String> clonedRepos = <String, String>{};
 
   Future<void> initialize() async {
@@ -41,7 +41,7 @@ class TenkaStoreBuilder {
         'github': Git.outputRepoGitHubRawURL,
         'jsdelivr': Git.outputRepoJsDelivrURL,
       },
-      extensions: extensions,
+      modules: modules,
       builtAt: now,
       checksum: TenkaStore.generateChecksum(),
     );
@@ -179,7 +179,7 @@ class TenkaStoreBuilder {
       version: config.version,
     );
 
-    extensions[nMetadata.id] = nMetadata;
+    modules[nMetadata.id] = nMetadata;
   }
 
   Future<void> dispose() async {

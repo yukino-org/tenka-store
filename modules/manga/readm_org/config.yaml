@@ -1,0 +1,13 @@
+name: ReadM.org
+author: Zyrouge
+repo:
+    username: yukino-org
+    repo: official-tenka-modules
+    ref: 38f3fc3a889a98e299b1cefcf43426bd1de4aa4c
+source:
+    root: modules/manga/readm_org/src
+    file: main.ht
+thumbnail:
+    root: modules/manga/readm_org
+    file: logo.png
+nsfw: false

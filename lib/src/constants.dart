@@ -4,7 +4,7 @@ import './models/repo.dart';
 
 abstract class Constants {
   static final String configDir =
-      path.join(Directory.current.path, '../extensions');
+      path.join(Directory.current.path, '../modules');
 
   static final String outputDir = path.join(Directory.current.path, '../dist');
   static final String outputDataDir = path.join(outputDir, 'data');
@@ -31,7 +31,7 @@ abstract class Constants {
 
   static final SGitHubRepository outputRepo = SGitHubRepository(
     username: 'yukino-org',
-    repo: 'extensions-store',
+    repo: 'tenka-store',
     ref: 'dist$_ref',
   );
 

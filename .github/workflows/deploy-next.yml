@@ -33,7 +33,7 @@ jobs:
             - run: |
                   git config --local user.name '${{ env.GIT_CONFIG_NAME }}'
                   git config --local user.email '${{ env.GIT_CONFIG_EMAIL }}'
-                  git add extensions/**/_data.json
+                  git add modules/**/_data.json
                   git commit --allow-empty -m "chore(boat): data files generated from ${{ github.sha }}"
 
             - uses: ad-m/github-push-action@master

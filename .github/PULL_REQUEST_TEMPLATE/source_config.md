@@ -2,7 +2,7 @@
 name: Extension configuration file
 about: Adds/Removes/Modifies a particular extension configuration file
 title: "[Extension] <website name>"
-labels: "extensions: pr"
+labels: "modules: pr"
 assignees: ""
 ---
 
