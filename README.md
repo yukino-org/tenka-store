@@ -1,12 +1,12 @@
-<br />
-
 <p align="center">
-    <img src="https://github.com/yukino-org/media/blob/main/images/subbanners/gh-tenka-banner.png?raw=true" width="70%">
+    <img src="https://github.com/yukino-org/media/blob/main/images/subbanners/gh-tenka-banner.png?raw=true">
 </p>
 
 # Tenka Store
 
-🏪 Where all Tenka(s) come together. The project's name "Tenka" meaning "addition" (in Japanese) was named after the previous name "extension".
+🏪 Where all Tenka(s) come together.
+
+The project's name "Tenka" meaning "addition" (in Japanese) was named after the previous name "extension".
 
 The developer of this application is not responsible for any content displayed and does not have any affiliation with any of the third-party sources in this repository. Use this at your own risk.
 
