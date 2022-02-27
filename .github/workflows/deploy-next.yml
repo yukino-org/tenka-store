@@ -44,4 +44,4 @@ jobs:
                   git config --local user.email "${{ env.GIT_CONFIG_EMAIL }}"
                   git add ${{ env.GENERATED_GLOB }}
                   git commit --allow-empty -m "${{ env.GIT_COMMIT_MSG }}"
-                  git push
+                  git push -u origin ${{ github.ref }}
