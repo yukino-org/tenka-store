@@ -4,7 +4,7 @@
 
 # Tenka Store
 
-🏪 Where all Tenka(s) come together.
+🏪 Where all Tenka modules come together.
 
 The project's name "Tenka" meaning "addition" (in Japanese) was named after the previous name "extension".
 
