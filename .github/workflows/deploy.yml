@@ -21,27 +21,27 @@ jobs:
             - uses: actions/checkout@v2
             - uses: dart-lang/setup-dart@v1
 
-            - run: dart pub get
+            - name: 🚧 Do prerequisites
+              run: dart pub get
               working-directory: ${{ env.STORE_WORKING_DIR }}
 
-            - run: dart run ./src/commands/build/run.dart
+            - name: 🔨 Build store
+              run: dart run ./src/commands/build/run.dart
               working-directory: ${{ env.STORE_WORKING_DIR }}
 
-            - uses: JamesIves/github-pages-deploy-action@4.1.4
+            - name: 🚀 Update store
+              uses: JamesIves/github-pages-deploy-action@4.1.4
               with:
                   branch: ${{ env.DEPLOY_BRANCH }}
                   folder: ${{ env.DEPLOY_DIR }}
-                  commit-message: ${{ env. GIT_COMMIT_MSG }}
+                  commit-message: ${{ env.GIT_COMMIT_MSG }}
                   git-config-name: ${{ env.GIT_CONFIG_NAME }}
                   git-config-email: ${{ env.GIT_CONFIG_EMAIL }}
 
-            - run: |
+            - name: 🚀 Update data files
+              run: |
                   git config --local user.name "${{ env.GIT_CONFIG_NAME }}"
                   git config --local user.email "${{ env.GIT_CONFIG_EMAIL }}"
                   git add ${{ env.GENERATED_GLOB }}
-                  git commit --allow-empty -m "${{ env. GIT_COMMIT_MSG }}"
-
-            - uses: ad-m/github-push-action@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: ${{ github.ref }}
+                  git commit --allow-empty -m "${{ env.GIT_COMMIT_MSG }}"
+                  git push
