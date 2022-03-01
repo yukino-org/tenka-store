@@ -10,7 +10,7 @@ The project's name "Tenka" meaning "addition" (in Japanese) was named after the 
 
 The developer of this application is not responsible for any content displayed and does not have any affiliation with any of the third-party sources in this repository. Use this at your own risk.
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Deploy](https://github.com/yukino-org/tenka-store/actions/workflows/deploy.yml/badge.svg)](https://github.com/yukino-org/tenka-store/actions/workflows/deploy.yml)
 [![Deploy (Next)](https://github.com/yukino-org/tenka-store/actions/workflows/deploy-next.yml/badge.svg)](https://github.com/yukino-org/tenka-store/actions/workflows/deploy-next.yml)
 
@@ -22,4 +22,4 @@ The developer of this application is not responsible for any content displayed a
 
 ## License
 
-[![AGPL-3.0](https://github.com/yukino-org/media/blob/main/images/license-logo/agplv3.png?raw=true)](./LICENSE)
+[![GPL-3.0](https://github.com/yukino-org/media/blob/main/images/license-logo/gplv3.png?raw=true)](./LICENSE)
