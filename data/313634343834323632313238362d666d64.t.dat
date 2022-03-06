@@ -1,6 +1,5 @@
 import 'parsers/rapidcloud.ht';
 import 'utils.ht';
-import 'webview.ht';
 
 final extractor = AnimeExtractor(
     defaultLocale: $.defaultLocale,
@@ -97,8 +96,8 @@ final extractor = AnimeExtractor(
             }
         );
     },
-    getSources: fun (episode) {
-        final url = $.getEpisodeApiURL(episode.url);
+    getSources: fun (_url, locale) {
+        final url = $.getEpisodeApiURL(_url);
 
         return AsyncTask.resolve(
             () => Http.fetch(
