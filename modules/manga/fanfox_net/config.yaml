@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/manga/fanfox_net/src
     file: main.ht
-thumbnail:
-    root: modules/manga/fanfox_net
-    file: logo.png
+thumbnail: modules/manga/fanfox_net/logo.png
 nsfw: false

@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/anime/twist_moe/src
     file: main.ht
-thumbnail:
-    root: modules/anime/twist_moe
-    file: logo.png
+thumbnail: modules/anime/twist_moe/logo.png
 nsfw: false

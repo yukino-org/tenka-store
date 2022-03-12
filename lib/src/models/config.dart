@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:tenka/tenka.dart';
-import 'package:utilx/utilities/utils.dart';
+import 'package:utilx/utils.dart';
 import 'package:yaml/yaml.dart';
 import './repo.dart';
 
@@ -34,8 +34,8 @@ class SConfig {
       author: pConfig['author'] as String?,
       repo:
           SGitHubRepository.fromJson(pConfig['repo'] as Map<dynamic, dynamic>),
-      source: _parseConfigDS(pConfig['source'] as Map<dynamic, dynamic>),
-      thumbnail: _parseConfigDS(pConfig['thumbnail'] as Map<dynamic, dynamic>),
+      source: _parseRootFilePath(pConfig['source'] as Map<dynamic, dynamic>),
+      thumbnail: _parseFullPath(pConfig['thumbnail'] as String),
       nsfw: pConfig['nsfw'] as bool,
       version: pConfigData != null
           ? TenkaVersion.parse(pConfigData['version'] as String)
@@ -76,9 +76,14 @@ class SConfig {
     return TenkaVersion(now.year, now.month, 0);
   }
 
-  static TenkaLocalFileDS _parseConfigDS(final Map<dynamic, dynamic> json) =>
+  static TenkaLocalFileDS _parseRootFilePath(
+    final Map<dynamic, dynamic> json,
+  ) =>
       TenkaLocalFileDS(
         root: json['root'] as String,
         file: json['file'] as String,
       );
+
+  static TenkaLocalFileDS _parseFullPath(final String path) =>
+      TenkaLocalFileDSConverter.converter.fromFullPath(path);
 }

@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/anime/zoro_to/src
     file: main.ht
-thumbnail:
-    root: modules/anime/zoro_to
-    file: logo.png
+thumbnail: modules/anime/zoro_to/logo.png
 nsfw: false

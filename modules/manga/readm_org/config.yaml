@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/manga/readm_org/src
     file: main.ht
-thumbnail:
-    root: modules/manga/readm_org
-    file: logo.png
+thumbnail: modules/manga/readm_org/logo.png
 nsfw: false

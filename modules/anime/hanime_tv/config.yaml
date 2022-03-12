@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/anime/hanime_tv/src
     file: main.ht
-thumbnail:
-    root: modules/anime/hanime_tv
-    file: logo.png
+thumbnail: modules/anime/hanime_tv/logo.png
 nsfw: true

@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/anime/gogoanime_pe/src
     file: main.ht
-thumbnail:
-    root: modules/anime/gogoanime_pe
-    file: logo.png
+thumbnail: modules/anime/gogoanime_pe/logo.png
 nsfw: false

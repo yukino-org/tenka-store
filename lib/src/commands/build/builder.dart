@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:tenka/tenka.dart';
 import 'package:tenka_dev_tools/tenka_dev_tools.dart';
-import 'package:utilx/utilities/utils.dart';
+import 'package:utilx/utils.dart';
 import '../../constants.dart';
 import '../../models/config.dart';
 import '../../utils/git.dart';

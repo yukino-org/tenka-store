@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/anime/tenshi_moe/src
     file: main.ht
-thumbnail:
-    root: modules/anime/tenshi_moe
-    file: logo.png
+thumbnail: modules/anime/tenshi_moe/logo.png
 nsfw: false

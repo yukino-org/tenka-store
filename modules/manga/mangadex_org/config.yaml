@@ -7,7 +7,5 @@ repo:
 source:
     root: modules/manga/mangadex_org/src
     file: main.ht
-thumbnail:
-    root: modules/manga/mangadex_org
-    file: logo.png
+thumbnail: modules/manga/mangadex_org/logo.png
 nsfw: false
