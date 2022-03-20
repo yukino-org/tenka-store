@@ -1,0 +1,138 @@
+import 'parsers/gogoplay.ht';
+import 'utils.ht';
+import '../../../shared/utils.ht';
+
+final fetcher = $HttpFetcher();
+
+final extractor = AnimeExtractor(
+    defaultLocale: $.defaultLocale,
+    search: fun (terms, locale) {
+        final url = $.getSearchURL(terms);
+
+        return AsyncTask.resolve(
+            () => fetcher.getBody(
+                method: 'get',
+                url: url,
+                headers: $.defaultHeaders,
+            ),
+            onDone: fun (html) {
+                final document = HtmlElement.parse(html);
+
+                return Collection.mapList(
+                    document.querySelectorAll('.items li'),
+                    fun (i, x) {
+                        final titleElement = x.querySelector('.name a');
+                        final url = titleElement.attributes['href'].trim();
+                        final thumbnail = x.querySelector('.img img').attributes['src'].trim();
+
+                        return SearchInfo(
+                            title: titleElement.text.trim(),
+                            url: $.appendBaseURL(url),
+                            thumbnail: ImageDescriber(
+                                url: Http.ensureURL(thumbnail),
+                                headers: $.defaultHeaders,
+                            ),
+                            locale: $.defaultLocale,
+                        );
+                    }
+                );
+            }
+        );
+    },
+    getInfo: fun (_url, locale) {
+        final url = Http.ensureURL(_url);
+
+        return AsyncTask.resolve(
+            () => fetcher.getBody(
+                method: 'get',
+                url: url,
+                headers: $.defaultHeaders,
+            ),
+            onDone: fun (html) {
+                final document = HtmlElement.parse(html);
+
+                final epPagesElement = document.querySelectorAll('#episode_page a');
+                final epURL = $.getEpisodeApiURL(
+                    document.querySelector('input#movie_id').attributes['value'].trim(),
+                    epPagesElement.first.attributes['ep_start'].trim(),
+                    epPagesElement.last.attributes['ep_end'].trim(),
+                );
+
+                return AsyncTask.resolve(
+                    () => fetcher.getBody(
+                        method: 'get',
+                        url: epURL,
+                        headers: $.defaultHeaders,
+                    ),
+                    onDone: fun (epHtml) {
+                        final epDocument = HtmlElement.parse(epHtml);
+                        final episodes = Collection.mapList(
+                            epDocument.querySelectorAll('#episode_related a'),
+                            fun (i, x) {
+                                final episode = x.querySelector('.name').text.replaceFirst('EP', '').trim();
+                                final url = x.attributes['href'].trim();
+                                
+                                return EpisodeInfo(
+                                    episode: episode,
+                                    url: $.appendBaseURL(url),
+                                    locale: $.defaultLocale,
+                                );
+                            }
+                        );
+
+                        return AnimeInfo(
+                            title: document.querySelector('.anime_info_body_bg h1').text.trim(),
+                            url: Http.ensureURL(url),
+                            thumbnail: ImageDescriber(
+                                url: Http.ensureURL(document.querySelector('.anime_info_body_bg img').attributes['src'].trim()),
+                                headers: $.defaultHeaders,
+                            ),
+                            episodes: episodes,
+                            locale: $.defaultLocale,
+                            availableLocales: [
+                                $.defaultLocale,
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+    },
+    getSources: fun (_url, locale) {
+        final url = Http.ensureURL(_url);
+
+        return AsyncTask.resolve(
+            () => fetcher.getBody(
+                method: 'get',
+                url: url,
+                headers: $.defaultHeaders,
+            ),
+            onDone: fun (html) {
+                final document = HtmlElement.parse(html);
+
+                return AsyncTask.resolveAll(
+                    Collection.filterList(
+                        Collection.mapList(
+                            document.querySelectorAll('.anime_muti_link ul > li'),
+                            fun (i, x) {
+                                final link = x.querySelector('a').attributes['data-video'];
+
+                                if (link != null) {
+                                    if (x.classes.contains('anime') || x.classes.contains('vidcdn')) {
+                                        return () => GogoPlay.parse(link);
+                                    }
+                                }
+
+                                return null;
+                            }
+                        ),
+                        (i, x) => x != null,
+                    ),
+                    onDone: fun (res) {
+                        return Collection.flattenList(res, 1);
+                    }
+                );
+            }
+        );
+    },
+);
