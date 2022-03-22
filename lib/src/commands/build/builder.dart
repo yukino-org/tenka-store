@@ -150,8 +150,8 @@ class TenkaStoreBuilder {
     final TenkaBase64DS nThumbnail =
         await TenkaBase64DSConverter.converter.fromLocalFile(
       TenkaLocalFileDS(
-        root: path.join(clonedDir, config.source.root),
-        file: config.source.file,
+        root: path.join(clonedDir, config.thumbnail.root),
+        file: config.thumbnail.file,
       ),
     );
 

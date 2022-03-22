@@ -91,7 +91,7 @@ packages:
       path: "."
       ref: dart_devx
       resolved-ref: fd4d70ed67925465e416a6705b29c51c73c1973f
-      url: "git://github.com/yukino-org/packages.git"
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "0.0.0"
   encrypt:
@@ -226,7 +226,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: "4558fa749d568e26dbe8fa58f921223f426299f4"
-      url: "git://github.com/xvrh/puppeteer-dart.git"
+      url: "https://github.com/xvrh/puppeteer-dart.git"
     source: git
     version: "2.7.0"
   quiver:
@@ -269,8 +269,8 @@ packages:
     description:
       path: "."
       ref: dart_tenka
-      resolved-ref: "2d3554ecdc63eee0189a518c8834caa58082cf18"
-      url: "git://github.com/yukino-org/packages.git"
+      resolved-ref: a1b599ff43025a810385de15d1c24eb7f4a13ccf
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "1.0.5"
   tenka_dev_tools:
@@ -278,8 +278,8 @@ packages:
     description:
       path: "."
       ref: dart_tenka_dev_tools
-      resolved-ref: "5ddfc722782cfe98d229f50e2b8fd46ecfb5ceb4"
-      url: "git://github.com/yukino-org/packages.git"
+      resolved-ref: a8cf463c33d93216fd01d1e1838f26b407673cf9
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "0.0.0"
   tenka_runtime:
@@ -287,8 +287,8 @@ packages:
     description:
       path: "."
       ref: dart_tenka_runtime
-      resolved-ref: "938e628751518b5e28182a3cb225b9e7bc76cd1e"
-      url: "git://github.com/yukino-org/packages.git"
+      resolved-ref: "7ee1db9783d4afbed4ca854f706c94c21fbf6864"
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "0.0.0"
   term_glyph:
@@ -310,8 +310,8 @@ packages:
     description:
       path: "."
       ref: dart_utilx
-      resolved-ref: "29204f732f4d143457df4d45e9331d8fd1fe5b46"
-      url: "git://github.com/yukino-org/packages.git"
+      resolved-ref: "9c424227be3b0bb6b5c1227ffd08e19db56fb5ff"
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "0.0.0"
   utilx_desktop:
@@ -319,8 +319,8 @@ packages:
     description:
       path: "."
       ref: dart_utilx_desktop
-      resolved-ref: "96271929c04ee139e08eed77e5d9549101a810fe"
-      url: "git://github.com/yukino-org/packages.git"
+      resolved-ref: f4c569f2304640be48295390a5c57f6512def868
+      url: "https://github.com/yukino-org/packages.git"
     source: git
     version: "0.0.0"
   yaml:
