@@ -3,7 +3,7 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: official-tenka-modules
-    ref: d19ef50236cb83b65cc109ec6e28fcaba0ffe00a
+    ref: 6685fab2dffacd874d83d25c3aea2dadeac2a172
 source:
     root: modules/anime/gogoanime_pe/src
     file: main.ht
