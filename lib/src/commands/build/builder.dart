@@ -67,8 +67,6 @@ class TenkaStoreBuilder {
           : null,
     );
 
-    await configDataFile.writeAsString(json.encode(config.toDataJson()));
-
     if (!Git.isValidSHA(config.repo.ref)) {
       throw Exception('Invalid `repo.ref` (${configFile.path})');
     }
@@ -180,6 +178,8 @@ class TenkaStoreBuilder {
     );
 
     modules[nMetadata.id] = nMetadata;
+
+    await configDataFile.writeAsString(json.encode(config.toDataJson()));
   }
 
   Future<void> dispose() async {
