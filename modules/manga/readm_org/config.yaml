@@ -3,7 +3,7 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: official-tenka-modules
-    ref: 2a0868816400841ccd21e629e9d74dd4723481c1
+    ref: e9574fc26f9ac71ddd7dfb4902acbc9427ac2462
 source:
     root: modules/manga/readm_org/src
     file: main.ht
