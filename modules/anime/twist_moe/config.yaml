@@ -3,7 +3,7 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: official-tenka-modules
-    ref: 246c5d035005cd1f70ffe88e4f14f20b69925a59
+    ref: 71a31c9589965de66e7b6c52afb6a696775af4ab
 source:
     root: modules/anime/twist_moe/src
     file: main.ht
