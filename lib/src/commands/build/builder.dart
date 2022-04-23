@@ -66,6 +66,7 @@ class TenkaStoreBuilder {
           ? await configDataFile.readAsString()
           : null,
     );
+    if (config.disabled) return;
 
     if (!Git.isValidSHA(config.repo.ref)) {
       throw Exception('Invalid `repo.ref` (${configFile.path})');
