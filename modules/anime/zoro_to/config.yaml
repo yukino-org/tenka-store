@@ -3,7 +3,7 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: official-tenka-modules
-    ref: 18a69e963fc4d5e788f96902a25bacbe72a23885
+    ref: e7649808be866341a1918c0d1e2d58a0e28b9b50
 source:
     root: modules/anime/zoro_to/src
     file: main.ht
