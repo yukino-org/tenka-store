@@ -2,10 +2,11 @@ name: Twist.moe
 author: Zyrouge
 repo:
     username: yukino-org
-    repo: official-tenka-modules
+    repo: tenka-modules
     ref: e7649808be866341a1918c0d1e2d58a0e28b9b50
 source:
     root: modules/anime/twist_moe/src
     file: main.ht
 thumbnail: modules/anime/twist_moe/logo.png
 nsfw: false
+disabled: true

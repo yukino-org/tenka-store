@@ -2,7 +2,7 @@ name: ReadM.org
 author: Zyrouge
 repo:
     username: yukino-org
-    repo: official-tenka-modules
+    repo: tenka-modules
     ref: e7649808be866341a1918c0d1e2d58a0e28b9b50
 source:
     root: modules/manga/readm_org/src
