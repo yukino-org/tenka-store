@@ -1,12 +1,11 @@
-name: AnimePahe.com
+name: MangaSee123.com
 author: Zyrouge
 repo:
     username: yukino-org
     repo: tenka-modules
     ref: 3b174edfe4574cd72f3fcd6150e61df0c48e6852
 source:
-    root: modules/anime/animepahe_com/src
+    root: modules/manga/mangasee123_com/src
     file: main.ht
-thumbnail: modules/anime/animepahe_com/logo.png
+thumbnail: modules/manga/mangasee123_com/logo.png
 nsfw: false
-disabled: true
