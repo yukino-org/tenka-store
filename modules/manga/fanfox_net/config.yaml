@@ -3,7 +3,7 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: tenka-modules
-    ref: 3b174edfe4574cd72f3fcd6150e61df0c48e6852
+    ref: 37100c0809f707bbfc42755d70225f328ca2c0dd
 source:
     root: modules/manga/fanfox_net/src
     file: main.ht
