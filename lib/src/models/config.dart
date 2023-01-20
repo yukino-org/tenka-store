@@ -15,6 +15,7 @@ class SConfig {
     required this.nsfw,
     required this.version,
     required this.disabled,
+    required this.deprecated,
     required this.pRepo,
   });
 
@@ -42,6 +43,7 @@ class SConfig {
           ? TenkaVersion.parse(pConfigData['version'] as String)
           : _newVersion(),
       disabled: pConfig['disabled'] as bool? ?? false,
+      deprecated: pConfig['deprecated'] as bool? ?? false,
       pRepo: pConfigData != null
           ? SGitHubRepository.fromJson(
               pConfigData['pRepo'] as Map<dynamic, dynamic>,
@@ -59,6 +61,7 @@ class SConfig {
   final bool nsfw;
   final TenkaVersion version;
   final bool disabled;
+  final bool deprecated;
   final SGitHubRepository? pRepo;
 
   Map<dynamic, dynamic> toDataJson() => <dynamic, dynamic>{

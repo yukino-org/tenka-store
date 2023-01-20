@@ -1,13 +1,11 @@
-name: Zoro.to
+name: GogoAnime.bid
 author: Zyrouge
 repo:
     username: yukino-org
     repo: tenka-modules
     ref: 5217dd3ff6146bb267a320235f8bf78de7d6cf4c
 source:
-    root: modules/anime/zoro_to/src
+    root: modules/anime/gogoanime_bid/src
     file: main.fbs
-thumbnail: modules/anime/zoro_to/logo.png
+thumbnail: modules/anime/gogoanime_bid/logo.png
 nsfw: false
-deprecated: true
-disable: true

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:tenka/tenka.dart';
@@ -130,12 +131,17 @@ class TenkaStoreBuilder {
       clonedRepos[stringifiedRepo] = clonedDir;
     }
 
-    final TenkaBase64DS nSource = await _compileSource(
-      TenkaLocalFileDS(
-        root: path.join(clonedDir, config.source.root),
-        file: config.source.file,
-      ),
-    );
+    final TenkaBase64DS nSource;
+    try {
+      nSource = await _compileSource(
+        TenkaLocalFileDS(
+          root: path.join(clonedDir, config.source.root),
+          file: config.source.file,
+        ),
+      );
+    } catch (err) {
+      throw Exception('Failed to compile module: ${configFile.path}\n$err');
+    }
 
     final String nSourceSubPath =
         '${path.basename(Constants.outputDataDir)}/${config.id}.s.dat';
@@ -176,10 +182,10 @@ class TenkaStoreBuilder {
       thumbnail: TenkaCloudDS(nThumbnailSubPath),
       nsfw: config.nsfw,
       version: config.version,
+      deprecated: config.deprecated,
     );
 
     modules[nMetadata.id] = nMetadata;
-
     await configDataFile.writeAsString(json.encode(config.toDataJson()));
   }
 
@@ -188,13 +194,10 @@ class TenkaStoreBuilder {
   }
 
   Future<TenkaBase64DS> _compileSource(final TenkaLocalFileDS source) async {
-    final TenkaRuntimeInstance runtime = await TenkaRuntimeManager.create(
-      TenkaRuntimeInstanceOptions(
-        hetuSourceContext: HTFileSystemResourceContext(root: source.root),
-      ),
-    );
-    await runtime.loadScriptCode('', appendDefinitions: true);
-    return TenkaBase64DS(await runtime.compileScriptFile(source.file));
+    final FubukiProgramConstant program = await TenkaCompiler.compile(source);
+    final List<dynamic> serialized = program.serialize();
+    final String jsonified = json.encode(serialized);
+    return TenkaBase64DS(Uint8List.fromList(utf8.encode(jsonified)));
   }
 
   static final Directory configDir = Directory(Constants.configDir);

@@ -3,10 +3,9 @@ author: Zyrouge
 repo:
     username: yukino-org
     repo: tenka-modules
-    ref: b3ddddd3e195857c607d1b5e9d6747f0e47c2784
+    ref: 5217dd3ff6146bb267a320235f8bf78de7d6cf4c
 source:
     root: modules/anime/animepahe_com/src
-    file: main.ht
+    file: main.fbs
 thumbnail: modules/anime/animepahe_com/logo.png
 nsfw: false
-disabled: true
